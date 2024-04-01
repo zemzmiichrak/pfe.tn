@@ -98,4 +98,6 @@ public class Role {
     public void setDistricts(Set<District> districts) {
         this.districts = districts;
     }
+
+
 }

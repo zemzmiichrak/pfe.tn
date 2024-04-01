@@ -1,5 +1,5 @@
 package com.pfe.Controller;
-
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,21 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pfe.Entity.MoyenTransport;
 import com.pfe.Request.MoyenTransportRequest;
 import com.pfe.Service.MoyenTransportService;
-
 @RestController
 @RequestMapping("/api/v1/moyensTransport")
 public class MoyenTransportController {
 
     @Autowired
     private MoyenTransportService moyenTransportService;
-
     @PostMapping(path="/addMoyenTransport")
     public ResponseEntity<MoyenTransport> addMoyenTransport(@RequestBody MoyenTransportRequest moyenTransportRequest) {
         String code = moyenTransportRequest.getCode();
-        Long typeTransportId = moyenTransportRequest.getTypeTransportId();
-        Long ligneId = moyenTransportRequest.getLigneIds().iterator().next(); 
+        String typeTransportLabel = moyenTransportRequest.getTypeTransportLabel();
+        List<String> ligneLabels = new ArrayList<>(moyenTransportRequest.getLigneLabels());  
 
-        MoyenTransport newMoyenTransport = moyenTransportService.addMoyenTransport(code, typeTransportId, ligneId);
+        MoyenTransport newMoyenTransport = moyenTransportService.addMoyenTransport(code, typeTransportLabel, ligneLabels);
         return ResponseEntity.status(HttpStatus.CREATED).body(newMoyenTransport);
     }
 
@@ -39,35 +37,34 @@ public class MoyenTransportController {
             @RequestBody MoyenTransportRequest updateMoyenTransportRequest
     ) {
         String newCode = updateMoyenTransportRequest.getCode();
-        Long newTypeTransportId = updateMoyenTransportRequest.getTypeTransportId();
-        Long newLigneId = updateMoyenTransportRequest.getLigneIds().iterator().next(); 
+        String newTypeTransportLabel = updateMoyenTransportRequest.getTypeTransportLabel();
+        List<String> newLigneLabels = new ArrayList<>(updateMoyenTransportRequest.getLigneLabels());  
 
-        MoyenTransport updatedMoyenTransport = moyenTransportService.updateMoyenTransport(id, newCode, newTypeTransportId, newLigneId);
+        MoyenTransport updatedMoyenTransport = moyenTransportService.updateMoyenTransport(id, newCode, newTypeTransportLabel, newLigneLabels);
         return ResponseEntity.ok(updatedMoyenTransport);
     }
-    
+
     @GetMapping(path="/getAllMoyensTransport")
     public ResponseEntity<List<MoyenTransport>> getAllMoyensTransport() {
         List<MoyenTransport> moyensTransport = moyenTransportService.getAllMoyensTransport();
         return ResponseEntity.ok(moyensTransport);
     }
 
-
     @DeleteMapping(path="/deleteMoyenTransport/{id}")
     public ResponseEntity<String> deleteMoyenTransport(@PathVariable Long id) {
         moyenTransportService.deleteMoyenTransport(id);
         return ResponseEntity.ok("Moyen de transport supprimé avec succès");
     }
+
     @PostMapping(path="/createMoyenTransport")
     public ResponseEntity<MoyenTransport> createMoyenTransport(
             @RequestBody MoyenTransportRequest moyenTransportRequest
     ) {
         String code = moyenTransportRequest.getCode();
-        Long typeTransportId = moyenTransportRequest.getTypeTransportId();
-        Long ligneId = moyenTransportRequest.getLigneIds().iterator().next(); 
+        String typeTransportLabel = moyenTransportRequest.getTypeTransportLabel();
+        List<String> ligneLabels = new ArrayList<>(moyenTransportRequest.getLigneLabels());  
 
-        MoyenTransport newMoyenTransport = moyenTransportService.createMoyenTransport(code, typeTransportId, ligneId);
+        MoyenTransport newMoyenTransport = moyenTransportService.createMoyenTransport(code, typeTransportLabel, ligneLabels);
         return ResponseEntity.status(HttpStatus.CREATED).body(newMoyenTransport);
     }
-    
 }

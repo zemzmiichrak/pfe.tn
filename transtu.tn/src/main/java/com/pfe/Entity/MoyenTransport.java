@@ -26,13 +26,14 @@ public class MoyenTransport {
     @JoinColumn(name = "type_transport_id")
     private TypeTransport typeTransport;
     
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.REMOVE) 
     @JoinTable(
             name = "moyen_transport_ligne",
             joinColumns = @JoinColumn(name = "moyen_transport_id"),
             inverseJoinColumns = @JoinColumn(name = "ligne_id")
     )
     private Set<Ligne> lignes = new HashSet<>();
+
 
 	public Set<Ligne> getLignes() {
 		return lignes;
@@ -81,6 +82,11 @@ public class MoyenTransport {
 	}
 
 	public MoyenTransport() {
+		
+	}
+
+	public void setTypeTransports(Set<TypeTransport> typeTransports) {
+		// TODO Auto-generated method stub
 		
 	}
 

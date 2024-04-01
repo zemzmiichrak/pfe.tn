@@ -1,8 +1,8 @@
 package com.pfe.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.pfe.Entity.District;
 import com.pfe.Entity.Ligne;
 import com.pfe.Repository.LigneRepository;
-
 @Service
 public class LigneService {
 
@@ -18,6 +17,7 @@ public class LigneService {
     private LigneRepository ligneRepository;
     @Autowired
     private DistrictService districtService;
+
     public List<Ligne> getAllLignes() {
         return ligneRepository.findAll();
     }
@@ -38,7 +38,6 @@ public class LigneService {
     }
 
     public void deleteLigne(Long id) {
-      
         if (ligneRepository.existsById(id)) {
             ligneRepository.deleteById(id);
         } else {
@@ -63,12 +62,10 @@ public class LigneService {
         }
     }
 
-	public Ligne getLigneById(Long ligneId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
+  
    
+
+    public List<Ligne> getLignesByLabels(List<String> ligneLabels) {
+        return ligneRepository.findAllByLabelIn(ligneLabels);
+    }
 }

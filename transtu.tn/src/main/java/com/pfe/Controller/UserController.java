@@ -2,6 +2,7 @@ package com.pfe.Controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,8 +51,9 @@ public class UserController {
 
             UserSave userSave = userRegistration.getUserSave();
             UserCredentials credentials = userRegistration.getCredentials();
+            Set<String> roleLabels = userRegistration.getRoleLabels(); 
 
-            userService.addUser(userSave, credentials);
+            userService.addUser(userSave, credentials, roleLabels); 
             return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register user: " + e.getMessage());
@@ -76,7 +78,7 @@ public class UserController {
 
     @PutMapping(path = "/update")
     public ResponseEntity<String> updateUser(@RequestBody UserUpdating userUpdating) {
-        userService.updateUser(userUpdating.getUserUpdate(), userUpdating.getUpdatedCredentials(), userUpdating.getRoleIds());
+        userService.updateUser(userUpdating.getUserUpdate(), userUpdating.getUpdatedCredentials(), userUpdating.getRoleLabels());
         return ResponseEntity.ok("User updated successfully");
     }
 

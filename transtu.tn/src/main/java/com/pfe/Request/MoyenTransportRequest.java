@@ -2,38 +2,24 @@ package com.pfe.Request;
 
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.pfe.Entity.TypeTransport;
-import com.pfe.Service.LigneService;
-import com.pfe.Service.TypeService;
 
 public class MoyenTransportRequest {
 
-	 private String code;
-	    private Long typeTransportId;
-	    private Set<Long> ligneIds;
+    private String code;
+    private String typeTransportLabel;
+    private Set<String> ligneLabels;
 
-    
-    @Autowired
-    private  TypeService typeTransportService;
-    @Autowired
-    private  LigneService   ligneService ;
-    
     public MoyenTransportRequest() {
     }
 
-    public MoyenTransportRequest(String code, Long typeTransportId, Set<Long> ligneIds,
-			TypeService typeTransportService, LigneService ligneService) {
-	
-		this.code = code;
-		this.typeTransportId = typeTransportId;
-		this.ligneIds = ligneIds;
-		this.typeTransportService = typeTransportService;
-		this.ligneService = ligneService;
-	}
+    public MoyenTransportRequest(String code, String typeTransportLabel, Set<String> ligneLabels) {
+        this.code = code;
+        this.typeTransportLabel = typeTransportLabel;
+        this.ligneLabels = ligneLabels;
+    }
 
-	public String getCode() {
+    public String getCode() {
         return code;
     }
 
@@ -41,39 +27,19 @@ public class MoyenTransportRequest {
         this.code = code;
     }
 
-    public Long getTypeTransportId() {
-        return typeTransportId;
+    public String getTypeTransportLabel() {
+        return typeTransportLabel;
     }
 
-    public void setTypeTransportId(Long typeTransportId) {
-        this.typeTransportId = typeTransportId;
+    public void setTypeTransportLabel(String typeTransportLabel) {
+        this.typeTransportLabel = typeTransportLabel;
     }
 
-   
+    public Set<String> getLigneLabels() {
+        return ligneLabels;
+    }
 
-	@Override
-	public String toString() {
-		return "MoyenTransportRequest [code=" + code + ", typeTransportId=" + typeTransportId + ", ligneIds=" + ligneIds
-				+ ", typeTransportService=" + typeTransportService + ", ligneService=" + ligneService + "]";
-	}
-
-	public TypeTransport getTypeTransport() {
-		
-		return   typeTransportService.getTypeTransportById(typeTransportId);
-	}
-
-	
-
-	public Set<Long> getLigneIds() {
-		return ligneIds;
-	}
-
-	public void setLigneIds(Set<Long> ligneIds) {
-		this.ligneIds = ligneIds;
-	}
-
-
-
-
-
+    public void setLigneLabels(Set<String> ligneLabels) {
+        this.ligneLabels = ligneLabels;
+    }
 }

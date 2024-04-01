@@ -25,14 +25,12 @@ import com.pfe.Entity.UserCredentials;
 			// TODO Auto-generated method stub
 			return null;
 		}
-		public Set<Long> getDistrictIds() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-		public Set<Long> getRoleIds() {
-			// TODO Auto-generated method stub
-			return null;
-		}
+		 public Set<String> getRoleLabels() {
+		        if (credentials != null) {
+		            return credentials.getRoleLabels();
+		        }
+		        return null;
+		    }
 	
-
+		
 }

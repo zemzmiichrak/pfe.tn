@@ -121,23 +121,26 @@ public  class UserService implements UserInterfaceService {
 
    @Override
    public List<UserRequest> getAllUser() {
-      List<User> getUsers = userRepository.findAll();
-      List<UserRequest> userReqList = new ArrayList<>();
-      for(User a:getUsers)
-      {
-    	  UserRequest userReq= new  UserRequest (
-    		   a.getFirstName(),
-       		   a.getLastName(),
-       		   a.getPhoneNumber(),
-       		   a.getAddress(),
-       		   a.getEmail(), null, null
-          );
-    	  userReqList.add(userReq);
-      }
-      return  userReqList;
+       List<User> getUsers = userRepository.findAll();
+       List<UserRequest> userReqList = new ArrayList<>();
+       for(User a : getUsers) {
+           UserCredentials credentials = a.getCredentials();
+           Set<String> rolesLabels = credentials.getRoleLabels(); 
+           UserRequest userReq = new UserRequest(
+               a.getFirstName(),
+               a.getLastName(),
+               a.getPhoneNumber(),
+               a.getAddress(),
+               a.getEmail(),
+               a.getPassword(), 
+               rolesLabels
+           );
+           userReqList.add(userReq);
+       }
+       return userReqList;
    }
    @Override
-   public String updateUser(UserUpdate userUpdate, UserCredentials updatedCredentials, Set<Long> roleIds) {
+   public String updateUser(UserUpdate userUpdate, UserCredentials updatedCredentials, Set<String> roleLabels) {
        if (userUpdate == null) {
            throw new IllegalArgumentException("userUpdate cannot be null");
        }
@@ -146,41 +149,25 @@ public  class UserService implements UserInterfaceService {
            User user = userRepository.findById(userUpdate.getId())
                    .orElseThrow(() -> new EntityNotFoundException("User with id " + userUpdate.getId() + " not found"));
 
-           user.setFirstName(userUpdate.getFirstName());
-           user.setLastName(userUpdate.getLastName());
-           user.setPhoneNumber(userUpdate.getPhoneNumber());
-           user.setAddress(userUpdate.getAddress());
-           user.setEmail(userUpdate.getEmail());
-
-           UserCredentials credentials = user.getCredentials();
-           if (updatedCredentials != null) {
-               if (updatedCredentials.getPassword() != null) {
-                   String hashedPassword = passwordEncoder.encode(updatedCredentials.getPassword());
-                   credentials.setPassword(hashedPassword);
-               }
-               if (updatedCredentials.getUsername() != null) {
-                   credentials.setUsername(updatedCredentials.getUsername());
-               }
-           }
-
            Set<Role> roles = new HashSet<>();
-           if (roleIds != null && !roleIds.isEmpty()) {
-               for (Long roleId : roleIds) {
-                   Role role = roleRepo.findById(roleId)
-                           .orElseThrow(() -> new EntityNotFoundException("Role with id " + roleId + " not found"));
+           if (roleLabels != null && !roleLabels.isEmpty()) {
+               for (String roleLabel : roleLabels) {
+                   Role role = roleRepo.findByLabel(roleLabel);
+                   if (role == null) {
+                       throw new EntityNotFoundException("Role with label " + roleLabel + " not found");
+                   }
                    roles.add(role);
                }
            }
            user.setRoles(roles);
 
-           credentialsRepository.save(credentials);
+           credentialsRepository.save(updatedCredentials);
            userRepository.save(user);
            return "User updated successfully";
        } else {
            throw new EntityNotFoundException("User with id " + userUpdate.getId() + " not found");
        }
    }
-
 
   
    public boolean checkIfUserExists(String email) {
@@ -191,7 +178,7 @@ public  class UserService implements UserInterfaceService {
 	    return passwordEncoder.matches(plainPassword, hashedPassword);
 	}
    @Override
-   public String addUser(UserSave userSave, UserCredentials credentials) {
+   public String addUser(UserSave userSave, UserCredentials credentials, Set<String> roleLabels) {
        if (userSave == null || userSave.getFirstName() == null || userSave.getLastName() == null ||
            userSave.getPhoneNumber() == null || userSave.getAddress() == null || userSave.getEmail() == null ||
            credentials == null || credentials.getUsername() == null || credentials.getPassword() == null) {
@@ -218,12 +205,14 @@ public  class UserService implements UserInterfaceService {
            null
        );
 
+     
        Set<Role> roles = new HashSet<>();
-       Set<Long> roleIds = userSave.getRoleIds();
-       if (roleIds != null && !roleIds.isEmpty()) {
-           for (Long roleId : roleIds) {
-               Role role = roleRepo.findById(roleId)
-                   .orElseThrow(() -> new EntityNotFoundException("Role with id " + roleId + " not found"));
+       if (roleLabels != null && !roleLabels.isEmpty()) {
+           for (String roleLabel : roleLabels) {
+               Role role = roleRepo.findByLabel(roleLabel);
+               if (role == null) {
+                   throw new EntityNotFoundException("Role with label " + roleLabel + " not found");
+               }
                roles.add(role);
            }
        }
@@ -238,8 +227,6 @@ public  class UserService implements UserInterfaceService {
 
        return user.getFirstName();
    }
-
-
    @Override
    public boolean deleteUser(Long id) {
        Optional<User> optionalUser = userRepository.findById(id);

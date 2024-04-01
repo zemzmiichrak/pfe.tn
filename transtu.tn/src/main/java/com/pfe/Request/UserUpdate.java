@@ -10,12 +10,13 @@ public class UserUpdate {
 	    private String address;
 	    private String email;
 	    private String password;
-	    private Set<Long> roleIds;
+	    private Set<String> roleLabels; 
+		
 		@Override
 		public String toString() {
 			return "UserUpdate [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phoneNumber="
 					+ phoneNumber + ", address=" + address + ", email=" + email + ", password=" + password
-					+ ", roleIds=" + roleIds + "]";
+					+ ", roleLabels=" + roleLabels + "]";
 		}
 		public Long getId() {
 			return id;
@@ -59,14 +60,13 @@ public class UserUpdate {
 		public void setPassword(String password) {
 			this.password = password;
 		}
-		public Set<Long> getRoleIds() {
-			return roleIds;
+		
+		public void setRoleLabels(Set<String> roleLabels) {
+			this.roleLabels = roleLabels;
 		}
-		public void setRoleIds(Set<Long> roleIds) {
-			this.roleIds = roleIds;
-		}
+		
 		public UserUpdate(Long id, String firstName, String lastName, String phoneNumber, String address, String email,
-				String password, Set<Long> roleIds) {
+				String password, Set<String> roleLabels) {
 			super();
 			this.id = id;
 			this.firstName = firstName;
@@ -75,6 +75,10 @@ public class UserUpdate {
 			this.address = address;
 			this.email = email;
 			this.password = password;
-			this.roleIds = roleIds;
+			this.roleLabels = roleLabels;
 		}
+		public Set<String> getRoleLabels() {
+		    return roleLabels;
+		}
+		
 	}

@@ -28,8 +28,16 @@ public class TypeService {
         typeTransportRepository.save(bus);
     }
 
-	public TypeTransport getTypeTransportById(Long typeTransportId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
+    @Transactional
+    public TypeTransport getTypeTransportById(Long typeTransportId) {
+        return typeTransportRepository.findById(typeTransportId)
+                .orElseThrow(() -> new IllegalArgumentException("Type de transport non trouvé avec l'ID: " + typeTransportId));
+    }
+
+    @Transactional
+    public TypeTransport getTypeTransportByLabel(String newTypeTransportLabel) {
+        return typeTransportRepository.findByLabel(newTypeTransportLabel)
+                .orElseThrow(() -> new IllegalArgumentException("Type de transport non trouvé avec le label: " + newTypeTransportLabel));
+    }
 }

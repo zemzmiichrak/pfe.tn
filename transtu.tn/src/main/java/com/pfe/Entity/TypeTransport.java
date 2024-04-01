@@ -43,7 +43,6 @@ public class TypeTransport {
 
 
 	public TypeTransport(Long id, String label, Set<MoyenTransport> moyensTransport) {
-		super();
 		this.id = id;
 		this.label = label;
 		this.moyensTransport = moyensTransport;
