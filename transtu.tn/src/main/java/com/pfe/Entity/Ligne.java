@@ -30,11 +30,11 @@ public class Ligne {
     )
     private Set<District> districts = new HashSet<>();
    
-	@Override
-	public String toString() {
-		return "Ligne [id=" + id + ", code=" + code + ", label=" + label + ", districts=" + districts + "]";
-	}
 
+    @ManyToMany
+    private Set<Itineraire> itineraires = new HashSet<>();
+    
+	
 	public Long getId() {
 		return id;
 	}
@@ -71,14 +71,30 @@ public class Ligne {
 		
 	}
 
-	public Ligne(Long id, String code, String label, Set<District> districts) {
+	public Set<Itineraire> getItineraires() {
+		return itineraires;
+	}
+
+	public void setItineraires(Set<Itineraire> itineraires) {
+		this.itineraires = itineraires;
+	}
+
+	@Override
+	public String toString() {
+		return "Ligne [id=" + id + ", code=" + code + ", label=" + label + ", districts=" + districts + ", itineraires="
+				+ itineraires + "]";
+	}
+
+	public Ligne(Long id, String code, String label, Set<District> districts, Set<Itineraire> itineraires) {
 		super();
 		this.id = id;
 		this.code = code;
 		this.label = label;
 		this.districts = districts;
-	
+		this.itineraires = itineraires;
 	}
+
+	
 
 	
 

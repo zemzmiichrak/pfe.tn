@@ -63,9 +63,12 @@ public class LigneService {
     }
 
   
-   
-
+  
     public List<Ligne> getLignesByLabels(List<String> ligneLabels) {
         return ligneRepository.findAllByLabelIn(ligneLabels);
+    }
+
+    public List<Ligne> getLignesByIds(List<Long> ligneIds) {
+        return ligneRepository.findAllById(ligneIds);
     }
 }

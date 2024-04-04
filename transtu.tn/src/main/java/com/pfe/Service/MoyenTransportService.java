@@ -17,16 +17,18 @@ public class MoyenTransportService {
 
     @Autowired
     private MoyenTransportRepository moyenTransportRepository;
- 
+
     @Autowired
-    private TypeService  typeService; 
+    private TypeService typeService;
+
     @Autowired
-    private LigneService ligneService; 
+    private LigneService ligneService;
+
 
     @Transactional
-    public MoyenTransport addMoyenTransport(String code, String typeTransportLabel, List<String> ligneLabels) {
-        TypeTransport typeTransport = typeService.getTypeTransportByLabel(typeTransportLabel);
-        List<Ligne> lignes = ligneService.getLignesByLabels(ligneLabels);
+    public MoyenTransport addMoyenTransport(String code, Long typeTransportId, List<Long> ligneIds) {
+        TypeTransport typeTransport = typeService.getTypeTransportById(typeTransportId);
+        List<Ligne> lignes = ligneService.getLignesByIds(ligneIds);
 
         MoyenTransport moyenTransport = new MoyenTransport();
         moyenTransport.setCode(code);
@@ -39,22 +41,16 @@ public class MoyenTransportService {
     @Transactional
     public void deleteMoyenTransport(Long id) {
         Optional<MoyenTransport> moyenTransportOptional = moyenTransportRepository.findById(id);
-        if (moyenTransportOptional.isPresent()) {
-            MoyenTransport moyenTransport = moyenTransportOptional.get();
-            
-           
+        moyenTransportOptional.ifPresent(moyenTransport -> {
             moyenTransport.getLignes().clear();
-
-          
             moyenTransportRepository.deleteById(id);
-        } else {
-            throw new IllegalArgumentException("Moyen de transport non trouvé avec l'ID: " + id);
-        }
+        });
     }
+
     @Transactional
-    public MoyenTransport updateMoyenTransport(Long id, String newCode, String newTypeTransportLabel, List<String> newLigneLabels) {
-        TypeTransport newTypeTransport = typeService.getTypeTransportByLabel(newTypeTransportLabel);
-        List<Ligne> newLignes = ligneService.getLignesByLabels(newLigneLabels);
+    public MoyenTransport updateMoyenTransport(Long id, String newCode, Long newTypeTransportId, List<Long> newLigneIds) {
+        TypeTransport newTypeTransport = typeService.getTypeTransportById(newTypeTransportId);
+        List<Ligne> newLignes = ligneService.getLignesByIds(newLigneIds);
 
         MoyenTransport existingMoyenTransport = moyenTransportRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Moyen de transport non trouvé avec l'ID: " + id));
@@ -67,9 +63,9 @@ public class MoyenTransportService {
     }
 
     @Transactional
-    public MoyenTransport createMoyenTransport(String code, String typeTransportLabel, List<String> ligneLabels) {
-        TypeTransport typeTransport = typeService.getTypeTransportByLabel(typeTransportLabel);
-        List<Ligne> lignes = ligneService.getLignesByLabels(ligneLabels);
+    public MoyenTransport createMoyenTransport(String code, Long typeTransportId, List<Long> ligneIds) {
+        TypeTransport typeTransport = typeService.getTypeTransportById(typeTransportId);
+        List<Ligne> lignes = ligneService.getLignesByIds(ligneIds);
 
         MoyenTransport moyenTransport = new MoyenTransport();
         moyenTransport.setCode(code);

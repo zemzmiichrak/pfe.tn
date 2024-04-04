@@ -21,13 +21,15 @@ public class MoyenTransportController {
 
     @Autowired
     private MoyenTransportService moyenTransportService;
+
+  
     @PostMapping(path="/addMoyenTransport")
     public ResponseEntity<MoyenTransport> addMoyenTransport(@RequestBody MoyenTransportRequest moyenTransportRequest) {
         String code = moyenTransportRequest.getCode();
-        String typeTransportLabel = moyenTransportRequest.getTypeTransportLabel();
-        List<String> ligneLabels = new ArrayList<>(moyenTransportRequest.getLigneLabels());  
+        Long typeTransportId = moyenTransportRequest.getTypeTransportId();
+        List<Long> ligneIds = new ArrayList<>(moyenTransportRequest.getLigneIds());
 
-        MoyenTransport newMoyenTransport = moyenTransportService.addMoyenTransport(code, typeTransportLabel, ligneLabels);
+        MoyenTransport newMoyenTransport = moyenTransportService.addMoyenTransport(code, typeTransportId, ligneIds);
         return ResponseEntity.status(HttpStatus.CREATED).body(newMoyenTransport);
     }
 
@@ -37,13 +39,14 @@ public class MoyenTransportController {
             @RequestBody MoyenTransportRequest updateMoyenTransportRequest
     ) {
         String newCode = updateMoyenTransportRequest.getCode();
-        String newTypeTransportLabel = updateMoyenTransportRequest.getTypeTransportLabel();
-        List<String> newLigneLabels = new ArrayList<>(updateMoyenTransportRequest.getLigneLabels());  
+        Long newTypeTransportId = updateMoyenTransportRequest.getTypeTransportId();
+        List<Long> newLigneIds = new ArrayList<>(updateMoyenTransportRequest.getLigneIds());
 
-        MoyenTransport updatedMoyenTransport = moyenTransportService.updateMoyenTransport(id, newCode, newTypeTransportLabel, newLigneLabels);
+        MoyenTransport updatedMoyenTransport = moyenTransportService.updateMoyenTransport(id, newCode, newTypeTransportId, newLigneIds);
         return ResponseEntity.ok(updatedMoyenTransport);
     }
 
+   
     @GetMapping(path="/getAllMoyensTransport")
     public ResponseEntity<List<MoyenTransport>> getAllMoyensTransport() {
         List<MoyenTransport> moyensTransport = moyenTransportService.getAllMoyensTransport();
@@ -56,15 +59,16 @@ public class MoyenTransportController {
         return ResponseEntity.ok("Moyen de transport supprimé avec succès");
     }
 
+
     @PostMapping(path="/createMoyenTransport")
     public ResponseEntity<MoyenTransport> createMoyenTransport(
             @RequestBody MoyenTransportRequest moyenTransportRequest
     ) {
         String code = moyenTransportRequest.getCode();
-        String typeTransportLabel = moyenTransportRequest.getTypeTransportLabel();
-        List<String> ligneLabels = new ArrayList<>(moyenTransportRequest.getLigneLabels());  
+        Long typeTransportId = moyenTransportRequest.getTypeTransportId();
+        List<Long> ligneIds = new ArrayList<>(moyenTransportRequest.getLigneIds());
 
-        MoyenTransport newMoyenTransport = moyenTransportService.createMoyenTransport(code, typeTransportLabel, ligneLabels);
+        MoyenTransport newMoyenTransport = moyenTransportService.createMoyenTransport(code, typeTransportId, ligneIds);
         return ResponseEntity.status(HttpStatus.CREATED).body(newMoyenTransport);
     }
 }

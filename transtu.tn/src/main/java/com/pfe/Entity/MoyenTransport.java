@@ -86,7 +86,7 @@ public class MoyenTransport {
 	}
 
 	public void setTypeTransports(Set<TypeTransport> typeTransports) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

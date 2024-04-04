@@ -193,7 +193,7 @@ public class User {
 
 
 	public void setDistricts(Set<District> districts) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
