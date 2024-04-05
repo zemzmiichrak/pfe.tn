@@ -1,5 +1,7 @@
 package com.pfe.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,5 +49,11 @@ public class PointGPSController {
     public ResponseEntity<Void> deletePointGPS(@PathVariable Long id) {
         pointGPSService.deletePointGPS(id);
         return ResponseEntity.noContent().build();
+    }
+    
+    @GetMapping(path="/getAll")
+    public ResponseEntity<List<PointGPS>> getAllPointsGPS() {
+        List<PointGPS> pointsGPS = pointGPSService.getAllPointsGPS();
+        return ResponseEntity.ok(pointsGPS);
     }
 }

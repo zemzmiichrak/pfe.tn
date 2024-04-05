@@ -2,6 +2,9 @@ package com.pfe.Entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,10 +31,12 @@ public class Ligne {
             joinColumns = @JoinColumn(name = "ligne_id"),
             inverseJoinColumns = @JoinColumn(name = "district_id")
     )
+    @JsonIgnore
     private Set<District> districts = new HashSet<>();
    
 
     @ManyToMany
+    @JsonIgnore
     private Set<Itineraire> itineraires = new HashSet<>();
     
 	
