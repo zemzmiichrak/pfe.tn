@@ -3,6 +3,8 @@ package com.pfe.Entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,9 +23,11 @@ public class MoyenTransport {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String code;
+    
 
     @ManyToOne
     @JoinColumn(name = "type_transport_id")
+    @JsonIgnore
     private TypeTransport typeTransport;
     
     @ManyToMany(cascade = CascadeType.REMOVE) 

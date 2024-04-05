@@ -1,5 +1,8 @@
 package com.pfe.Controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.pfe.Entity.Itineraire;
 import com.pfe.Request.ItineraireRequest;
 import com.pfe.Service.ItineraireService;
@@ -22,35 +26,37 @@ public class ItineraireController {
     @Autowired
     private ItineraireService itineraireService;
 
-    @PostMapping("/create")
+    @GetMapping(path="/get/{id}")
+    public ResponseEntity<Itineraire> getItineraireById(@PathVariable Long id) {
+        Optional<Itineraire> itineraire = itineraireService.getItineraireById(id);
+        return itineraire.map(ResponseEntity::ok)
+                         .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping(path="/create")
     public ResponseEntity<Itineraire> createItineraire(@RequestBody ItineraireRequest request) {
         Itineraire itineraire = itineraireService.createItineraire(request);
-        return new ResponseEntity<>(itineraire, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                             .body(itineraire);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Itineraire> updateItineraire(@PathVariable Long id, @RequestBody ItineraireRequest request) {
+    @PutMapping(path="/update/{id}")
+    public ResponseEntity<Itineraire> updateItineraire(
+            @PathVariable Long id, @RequestBody ItineraireRequest request) {
         Itineraire itineraire = itineraireService.updateItineraire(id, request);
-        if (itineraire != null) {
-            return new ResponseEntity<>(itineraire, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return ResponseEntity.ok(itineraire);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping(path="/delete/{id}")
     public ResponseEntity<Void> deleteItineraire(@PathVariable Long id) {
         itineraireService.deleteItineraire(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent()
+                             .build();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Itineraire> getItineraireById(@PathVariable Long id) {
-        Itineraire itineraire = itineraireService.getItineraireById(id);
-        if (itineraire != null) {
-            return new ResponseEntity<>(itineraire, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    @GetMapping(path="/getAll")
+    public ResponseEntity<List<Itineraire>> getAllItineraires() {
+        List<Itineraire> itineraires = itineraireService.getAllItineraires();
+        return ResponseEntity.ok(itineraires);
     }
-}
+    }

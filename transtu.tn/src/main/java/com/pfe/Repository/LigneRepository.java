@@ -1,6 +1,7 @@
 package com.pfe.Repository;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -21,6 +22,10 @@ public interface LigneRepository extends JpaRepository<Ligne, Long> {
 	List<Ligne> findAllByIdIn(List<Long> ids);
 	
 	Optional<Ligne> findByLabel(String label);
+
+
+
+	Set<Ligne> findAllByIdIn(Set<Long> lignesIds);
 
 
 
