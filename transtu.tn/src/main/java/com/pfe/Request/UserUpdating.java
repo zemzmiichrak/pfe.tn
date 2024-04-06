@@ -9,6 +9,7 @@ import com.pfe.Entity.UserCredentials;
       public class UserUpdating {
 	  private UserUpdate userUpdate;
 	    private UserCredentials credentials;
+	    private Set<Long> roleIds; 
 		public UserUpdate getUserUpdate() {
 			return userUpdate;
 		}
@@ -25,12 +26,13 @@ import com.pfe.Entity.UserCredentials;
 			// TODO Auto-generated method stub
 			return null;
 		}
-		 public Set<String> getRoleLabels() {
-		        if (credentials != null) {
-		            return credentials.getRoleLabels();
-		        }
-		        return null;
-		    }
+		public Set<Long> getRoleIds() {
+			return roleIds;
+		}
+		public void setRoleIds(Set<Long> roleIds) {
+			this.roleIds = roleIds;
+		}
+	
 	
 		
 }

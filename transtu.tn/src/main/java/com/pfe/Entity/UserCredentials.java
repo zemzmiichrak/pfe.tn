@@ -91,12 +91,12 @@ public class UserCredentials {
 	}
 
 
-	  public Set<String> getRoleLabels() {
-	        Set<String> roleLabels = new HashSet<>();
-	        for (Role role : roles) {
-	            roleLabels.add(role.getLabel());
-	        }
-	        return roleLabels;
+	public Set<Long> getRoleIds() {
+	    Set<Long> roleIds = new HashSet<>();
+	    for (Role role : roles) {
+	        roleIds.add(role.getId());
 	    }
+	    return roleIds;
+	}
 
 }

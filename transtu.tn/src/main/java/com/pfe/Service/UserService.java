@@ -14,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.pfe.Entity.District;
 import com.pfe.Entity.Role;
 import com.pfe.Entity.User;
 import com.pfe.Entity.UserCredentials;
@@ -74,15 +73,15 @@ public  class UserService implements UserInterfaceService {
            null,
            null
        );
-       Set<Long> districtIds = userSave.getDistrictIds(); 
-       if (districtIds != null && !districtIds.isEmpty()) {
-           Set<District> districts = new HashSet<>();
-           for (Long districtId : districtIds) {
-               District district = districtRepository.findById(districtId)
-                       .orElseThrow(() -> new EntityNotFoundException("District with id " + districtId + " not found"));
-               districts.add(district);
+       Set<Long> roleIds = userSave.getRoleIds(); 
+       if (roleIds != null && !roleIds.isEmpty()) {
+           Set<Role> roles = new HashSet<>();
+           for (Long roleId : roleIds) {
+               Role role = roleRepo.findById(roleId)
+                       .orElseThrow(() -> new EntityNotFoundException("Role with id " + roleId + " not found"));
+               roles.add(role);
            }
-           user.setDistricts(districts);
+           user.setRoles(roles);
        }
 
        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -118,29 +117,28 @@ public  class UserService implements UserInterfaceService {
 	            .compact();
 	}
   
-
    @Override
    public List<UserRequest> getAllUser() {
        List<User> getUsers = userRepository.findAll();
        List<UserRequest> userReqList = new ArrayList<>();
-       for(User a : getUsers) {
-           UserCredentials credentials = a.getCredentials();
-           Set<String> rolesLabels = credentials.getRoleLabels(); 
+       for (User user : getUsers) {
+           UserCredentials credentials = user.getCredentials();
+           Set<Long> roleIds = credentials.getRoleIds(); 
            UserRequest userReq = new UserRequest(
-               a.getFirstName(),
-               a.getLastName(),
-               a.getPhoneNumber(),
-               a.getAddress(),
-               a.getEmail(),
-               a.getPassword(), 
-               rolesLabels
+               user.getFirstName(),
+               user.getLastName(),
+               user.getPhoneNumber(),
+               user.getAddress(),
+               user.getEmail(),
+               user.getPassword(),
+               roleIds 
            );
            userReqList.add(userReq);
        }
        return userReqList;
    }
    @Override
-   public String updateUser(UserUpdate userUpdate, UserCredentials updatedCredentials, Set<String> roleLabels) {
+   public String updateUser(UserUpdate userUpdate, UserCredentials updatedCredentials, Set<Long> roleIds) {
        if (userUpdate == null) {
            throw new IllegalArgumentException("userUpdate cannot be null");
        }
@@ -150,12 +148,10 @@ public  class UserService implements UserInterfaceService {
                    .orElseThrow(() -> new EntityNotFoundException("User with id " + userUpdate.getId() + " not found"));
 
            Set<Role> roles = new HashSet<>();
-           if (roleLabels != null && !roleLabels.isEmpty()) {
-               for (String roleLabel : roleLabels) {
-                   Role role = roleRepo.findByLabel(roleLabel);
-                   if (role == null) {
-                       throw new EntityNotFoundException("Role with label " + roleLabel + " not found");
-                   }
+           if (roleIds != null && !roleIds.isEmpty()) {
+               for (Long roleId : roleIds) {
+                   Role role = roleRepo.findById(roleId)
+                           .orElseThrow(() -> new EntityNotFoundException("Role with id " + roleId + " not found"));
                    roles.add(role);
                }
            }
@@ -178,7 +174,7 @@ public  class UserService implements UserInterfaceService {
 	    return passwordEncoder.matches(plainPassword, hashedPassword);
 	}
    @Override
-   public String addUser(UserSave userSave, UserCredentials credentials, Set<String> roleLabels) {
+   public String addUser(UserSave userSave, UserCredentials credentials, Set<Long> roleIds) {
        if (userSave == null || userSave.getFirstName() == null || userSave.getLastName() == null ||
            userSave.getPhoneNumber() == null || userSave.getAddress() == null || userSave.getEmail() == null ||
            credentials == null || credentials.getUsername() == null || credentials.getPassword() == null) {
@@ -205,14 +201,11 @@ public  class UserService implements UserInterfaceService {
            null
        );
 
-     
        Set<Role> roles = new HashSet<>();
-       if (roleLabels != null && !roleLabels.isEmpty()) {
-           for (String roleLabel : roleLabels) {
-               Role role = roleRepo.findByLabel(roleLabel);
-               if (role == null) {
-                   throw new EntityNotFoundException("Role with label " + roleLabel + " not found");
-               }
+       if (roleIds != null && !roleIds.isEmpty()) {
+           for (Long roleId : roleIds) {
+               Role role = roleRepo.findById(roleId)
+                       .orElseThrow(() -> new EntityNotFoundException("Role with id " + roleId + " not found"));
                roles.add(role);
            }
        }

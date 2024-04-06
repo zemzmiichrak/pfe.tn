@@ -26,23 +26,29 @@ public class RoleService {
         this.districtService = districtService;
     }
     public void createRole(RoleRequest roleRequest) {
+        // Check if the role already exists
+        Optional<Role> existingRole = roleRepository.findByLabel(roleRequest.getLabel());
+        if (existingRole.isPresent()) {
+            throw new IllegalArgumentException("Role with the same label already exists");
+        }
+
         Role role = new Role();
         role.setLabel(roleRequest.getLabel());
         role.setDescription(roleRequest.getDescription());
 
-     
-        Set<District> districts = districtService.getDistrictsByLabels(roleRequest.getDistrictLabels());
+        Set<District> districts = districtService.getDistrictsByIds(roleRequest.getDistrictIds());
         role.setDistricts(districts);
 
         roleRepository.save(role);
     }
+
     public ResponseEntity<String> updateRole(Long id, RoleRequest roleRequest) {
         Optional<Role> optionalRole = roleRepository.findById(id);
         if (optionalRole.isPresent()) {
             Role role = optionalRole.get();
             role.setLabel(roleRequest.getLabel());
             role.setDescription(roleRequest.getDescription());
-            Set<District> districts = districtService.getDistrictsByLabels(roleRequest.getDistrictLabels());
+            Set<District> districts = districtService.getDistrictsByIds(roleRequest.getDistrictIds());
             role.setDistricts(districts);
             roleRepository.save(role);
             return ResponseEntity.ok("Role updated successfully");
@@ -56,7 +62,8 @@ public class RoleService {
     }
     
     public boolean deleteRoleById(Long id) {
-        if (roleRepository.existsById(id)) {
+        Optional<Role> optionalRole = roleRepository.findById(id);
+        if (optionalRole.isPresent()) {
             roleRepository.deleteById(id);
             return true;
         }

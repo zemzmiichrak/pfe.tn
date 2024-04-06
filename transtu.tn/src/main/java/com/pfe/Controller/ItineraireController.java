@@ -1,8 +1,7 @@
 package com.pfe.Controller;
-
 import java.util.List;
 import java.util.Optional;
-
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +13,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.pfe.Entity.Itineraire;
 import com.pfe.Request.ItineraireRequest;
 import com.pfe.Service.ItineraireService;
-
 @RestController
 @RequestMapping("/api/v1/itineraire")
 public class ItineraireController {
@@ -59,4 +56,19 @@ public class ItineraireController {
         List<Itineraire> itineraires = itineraireService.getAllItineraires();
         return ResponseEntity.ok(itineraires);
     }
+    
+    
+    @PutMapping(path="/addPoints/{itineraireId}")
+    public ResponseEntity<Itineraire> addPointsToItineraire(
+            @PathVariable Long itineraireId, @RequestBody Set<Long> pointsGPSIds) {
+        Itineraire updatedItineraire = itineraireService.addPointsToItineraire(itineraireId, pointsGPSIds);
+        return ResponseEntity.ok(updatedItineraire);
+    }
+    @DeleteMapping(path="/deletePoint/{itineraireId}/{pointGPSId}")
+    public ResponseEntity<Itineraire> deletePointFromItineraire(
+            @PathVariable Long itineraireId, @PathVariable Long pointGPSId) {
+        Itineraire updatedItineraire = itineraireService.deletePointFromItineraire(itineraireId, pointGPSId);
+        return ResponseEntity.ok(updatedItineraire);
+    }
+    
     }

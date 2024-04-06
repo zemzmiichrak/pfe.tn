@@ -5,8 +5,7 @@ import java.util.Set;
 public class RoleRequest {
     private String label;
     private String description;
-    private Set<String> districtLabels;
-	
+    private Set<Long> districtIds; 
 	public String getLabel() {
 		return label;
 	}
@@ -21,25 +20,26 @@ public class RoleRequest {
 	}
 	
 	
+
+	
+	public Set<Long> getDistrictIds() {
+		return districtIds;
+	}
+	public void setDistrictIds(Set<Long> districtIds) {
+		this.districtIds = districtIds;
+	}
+
 	@Override
 	public String toString() {
-		return "RoleRequest [label=" + label + ", description=" + description + ", districtLabels=" + districtLabels
-				+ "]";
+		return "RoleRequest [label=" + label + ", description=" + description + ", districtIds=" + districtIds + "]";
 	}
-	public RoleRequest(String label, String description, Set<String> districtLabels) {
+	public RoleRequest(String label, String description, Set<Long> districtIds) {
 		super();
 		this.label = label;
 		this.description = description;
-		this.districtLabels = districtLabels;
+		this.districtIds = districtIds;
 	}
-	public void setDistrictLabels(Set<String> districtLabels) {
-		this.districtLabels = districtLabels;
-	}
-	public RoleRequest() {
-	}
-	public Set<String> getDistrictLabels() {
-	    return districtLabels;
-	}
+
 	
 	
 }

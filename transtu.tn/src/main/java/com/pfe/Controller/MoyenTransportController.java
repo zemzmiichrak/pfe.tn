@@ -48,8 +48,8 @@ public class MoyenTransportController {
 
    
     @GetMapping(path="/getAllMoyensTransport")
-    public ResponseEntity<List<MoyenTransport>> getAllMoyensTransport() {
-        List<MoyenTransport> moyensTransport = moyenTransportService.getAllMoyensTransport();
+    public ResponseEntity<List<MoyenTransport>> getAllMoyensTransportWithDetails() {
+        List<MoyenTransport> moyensTransport = moyenTransportService.getAllMoyensTransportWithDetails();
         return ResponseEntity.ok(moyensTransport);
     }
 

@@ -51,9 +51,9 @@ public class UserController {
 
             UserSave userSave = userRegistration.getUserSave();
             UserCredentials credentials = userRegistration.getCredentials();
-            Set<String> roleLabels = userRegistration.getRoleLabels(); 
+            Set<Long> roleIds = userRegistration.getRoleIds(); 
 
-            userService.addUser(userSave, credentials, roleLabels); 
+            userService.addUser(userSave, credentials, roleIds); 
             return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register user: " + e.getMessage());
@@ -78,7 +78,7 @@ public class UserController {
 
     @PutMapping(path = "/update")
     public ResponseEntity<String> updateUser(@RequestBody UserUpdating userUpdating) {
-        userService.updateUser(userUpdating.getUserUpdate(), userUpdating.getUpdatedCredentials(), userUpdating.getRoleLabels());
+        userService.updateUser(userUpdating.getUserUpdate(), userUpdating.getUpdatedCredentials(), userUpdating.getRoleIds());
         return ResponseEntity.ok("User updated successfully");
     }
 

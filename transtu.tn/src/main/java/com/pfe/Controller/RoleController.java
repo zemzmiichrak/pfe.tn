@@ -33,7 +33,6 @@ public class RoleController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Role created successfully");
     }
 
-
     @GetMapping(path="/getAll")
     public ResponseEntity<List<Role>> getAllRoles() {
         List<Role> roles = roleService.getAllRoles();
@@ -54,4 +53,5 @@ public class RoleController {
         ResponseEntity<String> responseEntity = roleService.updateRole(id, roleRequest);
         return responseEntity;
     }
+
 }

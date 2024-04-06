@@ -7,7 +7,7 @@ import com.pfe.Entity.UserCredentials;
 public class UserRegistration {
     private UserSave userSave;
     private UserCredentials credentials;
-    private Set<String> roleLabels; 
+    private Set<Long> roleIds; 
     public UserSave getUserSave() {
         return userSave;
     }
@@ -24,11 +24,14 @@ public class UserRegistration {
         this.credentials = credentials;
     }
 
-    public Set<String> getRoleLabels() {
-        return roleLabels;
-    }
+	public Set<Long> getRoleIds() {
+		return roleIds;
+	}
 
-    public void setRoleLabels(Set<String> roleLabels) {
-        this.roleLabels = roleLabels;
-    }
+	public void setRoleIds(Set<Long> roleIds) {
+		this.roleIds = roleIds;
+	}
+
+  
+	
 }

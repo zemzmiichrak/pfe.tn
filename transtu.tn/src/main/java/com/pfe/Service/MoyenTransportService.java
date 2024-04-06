@@ -74,8 +74,13 @@ public class MoyenTransportService {
 
         return moyenTransportRepository.save(moyenTransport);
     }
-
-    public List<MoyenTransport> getAllMoyensTransport() {
-        return moyenTransportRepository.findAll();
+    @Transactional
+    public List<MoyenTransport> getAllMoyensTransportWithDetails() {
+        List<MoyenTransport> moyensTransport = moyenTransportRepository.findAll();
+        for (MoyenTransport moyenTransport : moyensTransport) {
+            moyenTransport.getTypeTransport().getLabel(); 
+            moyenTransport.getLignes().forEach(ligne -> ligne.getLabel()); 
+        }
+        return moyensTransport;
     }
 }

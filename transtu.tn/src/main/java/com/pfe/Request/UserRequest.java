@@ -9,14 +9,15 @@ public class UserRequest {
 	    private String address;
 	    private String email;
 	    private String password;
-	    private Set<String> rolesLabels;
+	    private Set<Long> roleIds; 
 
     public UserRequest() {
         
     }
 
-    public UserRequest(String firstName, String lastName, String phoneNumber, String address, String email,
-			String password, Set<String> rolesLabels) {
+  
+	public UserRequest(String firstName, String lastName, String phoneNumber, String address, String email,
+			String password, Set<Long> roleIds) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -24,8 +25,9 @@ public class UserRequest {
 		this.address = address;
 		this.email = email;
 		this.password = password;
-		this.rolesLabels = rolesLabels;
+		this.roleIds = roleIds;
 	}
+
 
 	public String getFirstName() {
         return firstName;
@@ -75,20 +77,26 @@ public class UserRequest {
         this.password = password;
     }
 
-	public Set<String> getRolesLabels() {
-		return rolesLabels;
+	
+
+	public Set<Long> getRoleIds() {
+		return roleIds;
 	}
 
-	public void setRolesLabels(Set<String> rolesLabels) {
-		this.rolesLabels = rolesLabels;
+
+	public void setRoleIds(Set<Long> roleIds) {
+		this.roleIds = roleIds;
 	}
+
 
 	@Override
 	public String toString() {
 		return "UserRequest [firstName=" + firstName + ", lastName=" + lastName + ", phoneNumber=" + phoneNumber
-				+ ", address=" + address + ", email=" + email + ", password=" + password + ", rolesLabels="
-				+ rolesLabels + "]";
+				+ ", address=" + address + ", email=" + email + ", password=" + password + ", roleIds=" + roleIds + "]";
 	}
+
+
+
 
    
 }

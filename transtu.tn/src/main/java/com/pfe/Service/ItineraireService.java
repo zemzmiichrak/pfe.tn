@@ -92,4 +92,33 @@ public class ItineraireService {
         return itineraireRepository.findAll();
     }
     
+    public Itineraire addPointsToItineraire(Long itineraireId, Set<Long> pointsGPSIds) {
+        Optional<Itineraire> existingItineraire = itineraireRepository.findById(itineraireId);
+        if (existingItineraire.isPresent()) {
+            Itineraire itineraire = existingItineraire.get();
+
+            Set<PointGPS> pointsGPS = pointGPSRepository.findAllByIdIn(pointsGPSIds);
+            itineraire.getPointsGPS().addAll(pointsGPS);
+
+            return itineraireRepository.save(itineraire);
+        } else {
+            throw new IllegalArgumentException("Itinéraire non trouvé avec l'ID : " + itineraireId);
+        }
+    }
+    public Itineraire deletePointFromItineraire(Long itineraireId, Long pointGPSId) {
+        Optional<Itineraire> existingItineraire = itineraireRepository.findById(itineraireId);
+        if (existingItineraire.isPresent()) {
+            Itineraire itineraire = existingItineraire.get();
+
+            Set<PointGPS> pointsGPS = itineraire.getPointsGPS();
+            pointsGPS.removeIf(pointGPS -> pointGPS.getId().equals(pointGPSId));
+
+            itineraire.setPointsGPS(pointsGPS);
+
+            return itineraireRepository.save(itineraire);
+        } else {
+            throw new IllegalArgumentException("Itinéraire non trouvé avec l'ID : " + itineraireId);
+        }
+    }
+    
     }

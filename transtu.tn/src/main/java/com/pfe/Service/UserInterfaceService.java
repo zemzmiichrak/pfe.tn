@@ -17,13 +17,13 @@ public interface UserInterfaceService {
 
 	 public boolean deleteUser(Long id);
 
-	 public String addUser(UserSave userSave, UserCredentials credentials, Set<String> roleLabels);
+	 public String addUser(UserSave userSave, UserCredentials credentials, Set<Long> roleIds);
 
 	 public List<UserRequest> getAllUser();
 
 	 public String login(UserCredentialsLogin credentialsLogin);
 
-	 public String updateUser(UserUpdate userUpdate, UserCredentials updatedCredentials, Set<String> roleLabels);
+	 public String updateUser(UserUpdate userUpdate, UserCredentials updatedCredentials, Set<Long> roleIds);
 
 	String registerUser(UserSave userSave, UserCredentials credentials);
 
