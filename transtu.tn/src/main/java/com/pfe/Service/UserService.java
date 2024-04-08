@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.crypto.SecretKey;
 
@@ -116,27 +117,30 @@ public  class UserService implements UserInterfaceService {
 	            .signWith(secretKey)
 	            .compact();
 	}
-  
    @Override
    public List<UserRequest> getAllUser() {
        List<User> getUsers = userRepository.findAll();
        List<UserRequest> userReqList = new ArrayList<>();
        for (User user : getUsers) {
-           UserCredentials credentials = user.getCredentials();
-           Set<Long> roleIds = credentials.getRoleIds(); 
+           Set<Role> roles = user.getRoles(); 
+           Set<Long> roleIds = roles.stream().map(Role::getId).collect(Collectors.toSet()); 
+
            UserRequest userReq = new UserRequest(
                user.getFirstName(),
                user.getLastName(),
-               user.getPhoneNumber(),
-               user.getAddress(),
                user.getEmail(),
-               user.getPassword(),
+               null,
+               null, 
+               null, 
                roleIds 
            );
            userReqList.add(userReq);
        }
        return userReqList;
    }
+
+
+
    @Override
    public String updateUser(UserUpdate userUpdate, UserCredentials updatedCredentials, Set<Long> roleIds) {
        if (userUpdate == null) {
@@ -251,6 +255,29 @@ public  class UserService implements UserInterfaceService {
        credentials.setPassword(hashedPassword);
        credentialsRepository.save(credentials);
    }
+   @Override
+   public UserRequest showUser(Long id) {
+       Optional<User> optionalUser = userRepository.findById(id);
+       if (optionalUser.isPresent()) {
+           User user = optionalUser.get();
+           UserCredentials credentials = user.getCredentials();
+           Set<Role> roles = user.getRoles(); 
 
+         
+           Set<Long> roleIds = roles.stream().map(Role::getId).collect(Collectors.toSet());
+
+           return new UserRequest(
+               user.getFirstName(),
+               user.getLastName(),
+               user.getAddress(),
+               user.getPhoneNumber(),
+               user.getEmail(),
+               credentials.getUsername(),
+               roleIds
+           );
+       } else {
+           throw new EntityNotFoundException("User with id " + id + " not found");
+       }
+   }
 
 }

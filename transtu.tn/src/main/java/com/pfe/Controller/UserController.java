@@ -23,6 +23,8 @@ import com.pfe.Request.UserSave;
 import com.pfe.Request.UserUpdating;
 import com.pfe.Service.UserService;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @RestController
 @RequestMapping("api/v1/user")
 public class UserController {
@@ -117,5 +119,14 @@ public class UserController {
         userService.updatePassword(email, oldPassword, newPassword);
 
         return ResponseEntity.ok("Password updated successfully");
+    }
+    @GetMapping("/showUser/{id}")
+    public ResponseEntity<UserRequest> showUser(@PathVariable Long id) {
+        try {
+            UserRequest userRequest = userService.showUser(id);
+            return ResponseEntity.ok(userRequest);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 }

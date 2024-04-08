@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 
@@ -26,8 +27,12 @@ public class UserCredentials {
     private User user;
 
     @ManyToMany
+    @JoinTable(
+        name = "user_credentials_roles",
+        joinColumns = @JoinColumn(name = "user_credentials_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     private Set<Role> roles = new HashSet<>();
-	
 	
 
 	public Set<Role> getRoles() {

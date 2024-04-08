@@ -25,6 +25,8 @@ public interface UserInterfaceService {
 
 	 public String updateUser(UserUpdate userUpdate, UserCredentials updatedCredentials, Set<Long> roleIds);
 
-	String registerUser(UserSave userSave, UserCredentials credentials);
+	 public String registerUser(UserSave userSave, UserCredentials credentials);
+
+	 public UserRequest showUser(Long id);
 
 }

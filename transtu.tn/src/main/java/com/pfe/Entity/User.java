@@ -38,7 +38,7 @@ public class User {
 
 	public User(Long id, String firstName, String lastName, String phoneNumber, String address, String email,
 			String password, UserCredentials credentials, Set<Role> roles) {
-		super();
+		
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;

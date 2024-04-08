@@ -6,6 +6,7 @@ public class RoleRequest {
     private String label;
     private String description;
     private Set<Long> districtIds; 
+    
 	public String getLabel() {
 		return label;
 	}

@@ -3,30 +3,46 @@ package com.pfe.Request;
 import java.util.Set;
 
 public class UserRequest {
-	   private String firstName;
-	    private String lastName;
-	    private String phoneNumber;
-	    private String address;
-	    private String email;
-	    private String password;
-	    private Set<Long> roleIds; 
+	private String firstName;
+    private String lastName;
+    private String address;
+    private String phoneNumber;
+    private String email;
+    private String username;
+    private Set<Long> roleIds;
 
     public UserRequest() {
         
     }
 
   
-	public UserRequest(String firstName, String lastName, String phoneNumber, String address, String email,
-			String password, Set<Long> roleIds) {
+	
+
+
+
+
+
+
+
+	public UserRequest(String firstName, String lastName, String address, String phoneNumber, String email,
+			String username, Set<Long> roleIds) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.phoneNumber = phoneNumber;
 		this.address = address;
+		this.phoneNumber = phoneNumber;
 		this.email = email;
-		this.password = password;
+		this.username = username;
 		this.roleIds = roleIds;
 	}
+
+
+
+
+
+
+
+
 
 
 	public String getFirstName() {
@@ -69,13 +85,7 @@ public class UserRequest {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  
 
 	
 
@@ -89,11 +99,53 @@ public class UserRequest {
 	}
 
 
+
+
+
+
+
+
+
+
 	@Override
 	public String toString() {
-		return "UserRequest [firstName=" + firstName + ", lastName=" + lastName + ", phoneNumber=" + phoneNumber
-				+ ", address=" + address + ", email=" + email + ", password=" + password + ", roleIds=" + roleIds + "]";
+		return "UserRequest [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address
+				+ ", phoneNumber=" + phoneNumber + ", email=" + email + ", username=" + username + ", roleIds="
+				+ roleIds + "]";
 	}
+
+
+
+
+
+
+
+
+
+
+	public String getUsername() {
+		return username;
+	}
+
+
+
+
+
+
+
+
+
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
+
+
+
+	
+
 
 
 

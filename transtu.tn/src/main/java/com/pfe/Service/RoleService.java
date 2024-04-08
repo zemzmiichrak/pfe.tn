@@ -12,21 +12,19 @@ import com.pfe.Entity.District;
 import com.pfe.Entity.Role;
 import com.pfe.Repository.RoleRepository;
 import com.pfe.Request.RoleRequest;
-
 @Service
 public class RoleService {
 
-	private final RoleRepository roleRepository;
-	
+    private final RoleRepository roleRepository;
+
     private final DistrictService districtService;
 
- 
     public RoleService(RoleRepository roleRepository, DistrictService districtService) {
         this.roleRepository = roleRepository;
         this.districtService = districtService;
     }
+
     public void createRole(RoleRequest roleRequest) {
-        // Check if the role already exists
         Optional<Role> existingRole = roleRepository.findByLabel(roleRequest.getLabel());
         if (existingRole.isPresent()) {
             throw new IllegalArgumentException("Role with the same label already exists");
@@ -60,7 +58,7 @@ public class RoleService {
     public List<Role> getAllRoles() {
         return roleRepository.findAll();
     }
-    
+
     public boolean deleteRoleById(Long id) {
         Optional<Role> optionalRole = roleRepository.findById(id);
         if (optionalRole.isPresent()) {
