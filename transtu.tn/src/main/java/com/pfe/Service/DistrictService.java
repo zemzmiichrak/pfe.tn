@@ -11,7 +11,7 @@ import com.pfe.Entity.District;
 import com.pfe.Repository.DistrictRepository;
 
 @Service
-public class DistrictService {
+public class DistrictService{
 
     @Autowired
     private DistrictRepository districtRepository;
@@ -48,19 +48,23 @@ public class DistrictService {
         district6.setAddress("Adresse de Bokri");
         districtRepository.save(district6);
     }
-
+  
     public List<District> getAllDistricts() {
         return districtRepository.findAll();
     }
 
-
+ 
     public Set<District> getDistrictsByIds(Set<Long> districtIds) {
         return districtRepository.findAllById(districtIds).stream().collect(Collectors.toSet());
     }
-    
+
     public Set<District> getDistrictsByLabels(Set<String> districtLabels) {
         List<District> districtsList = districtRepository.findByLabelIn(districtLabels);
         return districtsList.stream().collect(Collectors.toSet());
+    }
+
+    public boolean hasAnyDistrict() {
+        return districtRepository.count() > 0;
     }
 
 	

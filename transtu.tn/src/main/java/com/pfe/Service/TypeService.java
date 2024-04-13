@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 public class TypeService {
     
     private final TypeTransportRepository typeTransportRepository;
+    
     public TypeService(TypeTransportRepository typeTransportRepository) {
         this.typeTransportRepository = typeTransportRepository;
     }
@@ -32,5 +33,8 @@ public class TypeService {
     public TypeTransport getTypeTransportByLabel(String newTypeTransportLabel) {
         return typeTransportRepository.findByLabel(newTypeTransportLabel)
                 .orElseThrow(() -> new IllegalArgumentException("Type de transport non trouvé avec le label: " + newTypeTransportLabel));
+    }
+    public boolean hasAnyTypeTransport() {
+        return typeTransportRepository.count() > 0;
     }
 }

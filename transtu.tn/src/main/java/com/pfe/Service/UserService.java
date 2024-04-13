@@ -40,8 +40,7 @@ public  class UserService implements UserInterfaceService {
 	private UserRepository userRepository;
    @Autowired
     private RoleRepository  roleRepo;
-   @Autowired
-   PasswordEncoder passwordEncoder;
+
    @Autowired
    private UserCredentialsRepository credentialsRepository;
    @Autowired
@@ -49,9 +48,14 @@ public  class UserService implements UserInterfaceService {
 
    private SecretKey secretKey; 
 
+   
+   private final PasswordEncoder passwordEncoder;
+   
 
+  
    public UserService() {
-       this.secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+	this.passwordEncoder = new BCryptPasswordEncoder();
+	this.secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
    }
    @Override
    public String registerUser(UserSave userSave, UserCredentials credentials) {

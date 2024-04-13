@@ -67,4 +67,7 @@ public class RoleService {
         }
         return false;
     }
+    public List<Role> getRolesByIds(List<Long> roleIds) {
+        return roleRepository.findAllById(roleIds);
+    }
 }

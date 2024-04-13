@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pfe.Entity.Role;
@@ -53,5 +54,10 @@ public class RoleController {
     public ResponseEntity<String> updateRole(@PathVariable("id") Long id, @RequestBody RoleRequest roleRequest) {
         ResponseEntity<String> responseEntity = roleService.updateRole(id, roleRequest);
         return responseEntity;
+    }
+    @GetMapping(path = "/getByIds")
+    public ResponseEntity<List<Role>> getRolesByIds(@RequestParam List<Long> roleIds) {
+        List<Role> roles = roleService.getRolesByIds(roleIds);
+        return ResponseEntity.ok(roles);
     }
 }

@@ -12,11 +12,14 @@ import jakarta.transaction.Transactional;
 @Configuration
 public class DataLoader implements CommandLineRunner {
 
-    @Autowired
-    private DistrictService districtService;
+    private final DistrictService districtService;
+    private final DistrictRepository districtRepository;
 
     @Autowired
-    private DistrictRepository districtRepository;
+    public DataLoader(DistrictService districtService, DistrictRepository districtRepository) {
+        this.districtService = districtService;
+        this.districtRepository = districtRepository;
+    }
 
     @Override
     @Transactional
