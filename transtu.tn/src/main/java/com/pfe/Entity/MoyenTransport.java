@@ -1,9 +1,11 @@
 package com.pfe.Entity;
 import java.util.HashSet;
 import java.util.Set;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,11 +24,11 @@ public class MoyenTransport {
     private String code;
     
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_transport_id")
-    @JsonIgnore
+   
     private TypeTransport typeTransport;
-    
+
     @ManyToMany(cascade = CascadeType.REMOVE) 
     @JoinTable(
             name = "moyen_transport_ligne",

@@ -9,7 +9,7 @@ public class LigneRequest {
 	  private String label;
 
 
-	private Set<String> districtLabels;
+      private Set<Long> districtIds; 
 	  
 
 	public String getCode() {
@@ -29,25 +29,28 @@ public class LigneRequest {
 	}
 
 
-	public void setDistrictLabels(Set<String> districtLabels) {
-		this.districtLabels = districtLabels;
+
+
+
+	public Set<Long> getDistrictIds() {
+		return districtIds;
 	}
 
+	public void setDistrictIds(Set<Long> districtIds) {
+		this.districtIds = districtIds;
+	}
 
-	public LigneRequest(String code, String label, Set<String> districtLabels) {
+	public LigneRequest(String code, String label, Set<Long> districtIds) {
 		super();
 		this.code = code;
 		this.label = label;
-		this.districtLabels = districtLabels;
+		this.districtIds = districtIds;
 	}
 
 	public LigneRequest() {
 		
 	}
 
-	public Set<String> getDistrictLabels() {
-	    return districtLabels;
-	}
 	
 
 }

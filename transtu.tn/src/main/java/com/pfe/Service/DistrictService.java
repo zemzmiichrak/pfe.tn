@@ -1,5 +1,6 @@
 package com.pfe.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -54,18 +55,18 @@ public class DistrictService{
     }
 
  
-    public Set<District> getDistrictsByIds(Set<Long> districtIds) {
-        return districtRepository.findAllById(districtIds).stream().collect(Collectors.toSet());
-    }
 
     public Set<District> getDistrictsByLabels(Set<String> districtLabels) {
         List<District> districtsList = districtRepository.findByLabelIn(districtLabels);
         return districtsList.stream().collect(Collectors.toSet());
     }
-
-    public boolean hasAnyDistrict() {
-        return districtRepository.count() > 0;
+    public Set<District> getDistrictsByIds(Set<Long> districtIds) {
+        List<District> districts = districtRepository.findAllById(districtIds);
+        return new HashSet<>(districts);
     }
-
+    public List<District> getDistrictsByRole(Long id) {
+        List<District> districts = districtRepository.findByRolesId(id);
+        return districts;
+    }
 	
 }

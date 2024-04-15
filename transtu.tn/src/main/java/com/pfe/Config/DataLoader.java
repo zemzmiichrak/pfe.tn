@@ -12,14 +12,11 @@ import jakarta.transaction.Transactional;
 @Configuration
 public class DataLoader implements CommandLineRunner {
 
-    private final DistrictService districtService;
-    private final DistrictRepository districtRepository;
+    @Autowired
+    private DistrictService districtService;
 
     @Autowired
-    public DataLoader(DistrictService districtService, DistrictRepository districtRepository) {
-        this.districtService = districtService;
-        this.districtRepository = districtRepository;
-    }
+    private DistrictRepository districtRepository;
 
     @Override
     @Transactional
@@ -30,4 +27,4 @@ public class DataLoader implements CommandLineRunner {
             System.out.println("Districts already exist, skipping creation.");
         }
     }
-}
+} 

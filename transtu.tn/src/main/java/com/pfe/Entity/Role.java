@@ -1,7 +1,7 @@
 package com.pfe.Entity;
 import java.util.HashSet;
 import java.util.Set;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,7 +24,7 @@ public class Role {
         joinColumns = @JoinColumn(name = "role_id"), 
         inverseJoinColumns = @JoinColumn(name = "district_id") 
     )
-    @JsonIgnore
+
     private Set<District> districts = new HashSet<>();
     
     @ManyToMany(mappedBy = "roles")

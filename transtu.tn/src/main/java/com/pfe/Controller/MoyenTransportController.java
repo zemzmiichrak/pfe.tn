@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.pfe.DTO.MoyenTransportDTO;
 import com.pfe.Entity.MoyenTransport;
 import com.pfe.Request.MoyenTransportRequest;
 import com.pfe.Service.MoyenTransportService;
@@ -46,13 +48,11 @@ public class MoyenTransportController {
         return ResponseEntity.ok(updatedMoyenTransport);
     }
 
-   
     @GetMapping(path="/getAllMoyensTransport")
-    public ResponseEntity<List<MoyenTransport>> getAllMoyensTransportWithDetails() {
-        List<MoyenTransport> moyensTransport = moyenTransportService.getAllMoyensTransportWithDetails();
-        return ResponseEntity.ok(moyensTransport);
+    public ResponseEntity<List<MoyenTransportDTO>> getAllMoyensTransportWithDetails() {
+        List<MoyenTransportDTO> moyensTransportDTO = moyenTransportService.getAllMoyensTransportWithDetails();
+        return ResponseEntity.ok(moyensTransportDTO);
     }
-
     @DeleteMapping(path="/deleteMoyenTransport/{id}")
     public ResponseEntity<String> deleteMoyenTransport(@PathVariable Long id) {
         moyenTransportService.deleteMoyenTransport(id);

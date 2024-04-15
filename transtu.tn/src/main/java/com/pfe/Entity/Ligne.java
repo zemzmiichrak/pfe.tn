@@ -31,7 +31,7 @@ public class Ligne {
             joinColumns = @JoinColumn(name = "ligne_id"),
             inverseJoinColumns = @JoinColumn(name = "district_id")
     )
-    @JsonIgnore
+    
     private Set<District> districts = new HashSet<>();
    
 

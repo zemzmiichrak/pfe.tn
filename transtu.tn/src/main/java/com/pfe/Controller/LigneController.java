@@ -33,9 +33,9 @@ public class LigneController {
     public ResponseEntity<Ligne> addLigne(@RequestBody LigneRequest addLigneRequest) {
         String code = addLigneRequest.getCode();
         String label = addLigneRequest.getLabel();
-        Set<String> districtLabels = addLigneRequest.getDistrictLabels();
+        Set<Long> districtIds = addLigneRequest.getDistrictIds(); 
 
-        Ligne newLigne = ligneService.addLigne(code, label, districtLabels);
+        Ligne newLigne = ligneService.addLigne(code, label, districtIds); 
         return ResponseEntity.status(HttpStatus.CREATED).body(newLigne);
     }
     @PutMapping(path="/updateLigne/{id}")
@@ -45,9 +45,9 @@ public class LigneController {
     ) {
         String newCode = updateLigneRequest.getCode();
         String newLabel = updateLigneRequest.getLabel();
-        Set<String> newDistrictLabels = updateLigneRequest.getDistrictLabels();
+        Set<Long> newDistrictIds = updateLigneRequest.getDistrictIds(); 
 
-        Ligne updatedLigne = ligneService.updateLigne(id, newCode, newLabel, newDistrictLabels);
+        Ligne updatedLigne = ligneService.updateLigne(id, newCode, newLabel, newDistrictIds); 
         return ResponseEntity.ok(updatedLigne);
     }
 

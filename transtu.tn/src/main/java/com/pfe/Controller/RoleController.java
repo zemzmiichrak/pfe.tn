@@ -21,6 +21,7 @@ import com.pfe.Service.RoleService;
 @RestController
 @RequestMapping("api/v1/role")
 public class RoleController {
+	
 
     private final RoleService roleService;
 
@@ -33,13 +34,11 @@ public class RoleController {
         roleService.createRole(roleRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body("Role created successfully");
     }
-
-    @GetMapping(path ="/getAll")
+    @GetMapping(path = "/getAll")
     public ResponseEntity<List<Role>> getAllRoles() {
-        List<Role> roles = roleService.getAllRoles();
+        List<Role> roles = roleService.getAllRolesWithDistricts();
         return ResponseEntity.ok(roles);
     }
-
     @DeleteMapping(path ="/delete/{id}")
     public ResponseEntity<String> deleteRole(@PathVariable("id") Long id) {
         boolean deleted = roleService.deleteRoleById(id);

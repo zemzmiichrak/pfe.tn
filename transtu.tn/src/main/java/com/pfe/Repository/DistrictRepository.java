@@ -12,5 +12,6 @@ import com.pfe.Entity.District;
 public interface DistrictRepository extends JpaRepository<District, Long> {
 
 	 List<District> findByLabelIn(Set<String> districtLabels);
+	 List<District> findByRolesId(Long roleId);
   
 }

@@ -22,7 +22,7 @@ public class LigneService {
         return ligneRepository.findAll();
     }
 
-    public Ligne addLigne(String code, String label, Set<String> districtLabels) {
+    public Ligne addLigne(String code, String label, Set<Long> districtIds) {
         if (ligneRepository.existsByCodeOrLabel(code, label)) {
             throw new IllegalArgumentException("Ligne with the same code or label already exists.");
         }
@@ -31,7 +31,7 @@ public class LigneService {
         ligne.setCode(code);
         ligne.setLabel(label);
 
-        Set<District> districts = districtService.getDistrictsByLabels(districtLabels);
+        Set<District> districts = districtService.getDistrictsByIds(districtIds); 
         ligne.setDistricts(districts);
 
         return ligneRepository.save(ligne);
@@ -44,8 +44,7 @@ public class LigneService {
             throw new IllegalArgumentException("Ligne not found with ID: " + id);
         }
     }
-
-    public Ligne updateLigne(Long id, String newCode, String newLabel, Set<String> newDistrictLabels) {
+    public Ligne updateLigne(Long id, String newCode, String newLabel, Set<Long> newDistrictIds) {
         Optional<Ligne> existingLigneOptional = ligneRepository.findById(id);
         if (existingLigneOptional.isPresent()) {
             Ligne existingLigne = existingLigneOptional.get();
@@ -53,7 +52,7 @@ public class LigneService {
             existingLigne.setCode(newCode);
             existingLigne.setLabel(newLabel);
 
-            Set<District> newDistricts = districtService.getDistrictsByLabels(newDistrictLabels);
+            Set<District> newDistricts = districtService.getDistrictsByIds(newDistrictIds); 
             existingLigne.setDistricts(newDistricts);
 
             return ligneRepository.save(existingLigne);

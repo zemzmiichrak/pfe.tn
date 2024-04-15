@@ -1,5 +1,6 @@
 package com.pfe.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -55,10 +56,16 @@ public class RoleService {
         }
     }
 
-    public List<Role> getAllRoles() {
-        return roleRepository.findAll();
-    }
 
+    public List<Role> getAllRolesWithDistricts() {
+        List<Role> roles = roleRepository.findAll();
+        for (Role role : roles) {
+            List<District> districtsList = districtService.getDistrictsByRole(role.getId());
+            Set<District> districtsSet = new HashSet<>(districtsList);
+            role.setDistricts(districtsSet);
+        }
+        return roles;
+    }
     public boolean deleteRoleById(Long id) {
         Optional<Role> optionalRole = roleRepository.findById(id);
         if (optionalRole.isPresent()) {
@@ -70,4 +77,6 @@ public class RoleService {
     public List<Role> getRolesByIds(List<Long> roleIds) {
         return roleRepository.findAllById(roleIds);
     }
+
+	
 }

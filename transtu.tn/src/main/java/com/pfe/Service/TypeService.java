@@ -34,7 +34,5 @@ public class TypeService {
         return typeTransportRepository.findByLabel(newTypeTransportLabel)
                 .orElseThrow(() -> new IllegalArgumentException("Type de transport non trouvé avec le label: " + newTypeTransportLabel));
     }
-    public boolean hasAnyTypeTransport() {
-        return typeTransportRepository.count() > 0;
-    }
+  
 }
