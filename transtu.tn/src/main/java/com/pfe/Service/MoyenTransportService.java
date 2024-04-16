@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.pfe.DTO.LigneDTO;
 import com.pfe.DTO.MoyenTransportDTO;
+import com.pfe.DTO.TypeTransportDTO;
 import com.pfe.Entity.Ligne;
 import com.pfe.Entity.MoyenTransport;
 import com.pfe.Entity.TypeTransport;
@@ -28,10 +27,18 @@ public class MoyenTransportService {
     @Autowired
     private LigneService ligneService;
 
-
     @Transactional
     public MoyenTransport addMoyenTransport(String code, Long typeTransportId, List<Long> ligneIds) {
-        TypeTransport typeTransport = typeService.getTypeTransportById(typeTransportId);
+        if (moyenTransportRepository.existsByCodeAndTypeTransportId(code, typeTransportId)) {
+            throw new IllegalArgumentException("Moyen de transport avec le même code et type existe déjà");
+        }
+
+        TypeTransport typeTransport = typeService.getTypeTransportById(typeTransportId); // Récupération du type de transport depuis la base de données
+
+        if (typeTransport == null || typeTransport.getLabel() == null) {
+            throw new IllegalArgumentException("Le type de transport spécifié est invalide ou n'a pas de label défini.");
+        }
+
         List<Ligne> lignes = ligneService.getLignesByIds(ligneIds);
 
         MoyenTransport moyenTransport = new MoyenTransport();
@@ -41,7 +48,6 @@ public class MoyenTransportService {
 
         return moyenTransportRepository.save(moyenTransport);
     }
-
     @Transactional
     public void deleteMoyenTransport(Long id) {
         Optional<MoyenTransport> moyenTransportOptional = moyenTransportRepository.findById(id);
@@ -66,18 +72,29 @@ public class MoyenTransportService {
         return moyenTransportRepository.save(existingMoyenTransport);
     }
 
-    @Transactional
-    public MoyenTransport createMoyenTransport(String code, Long typeTransportId, List<Long> ligneIds) {
-        TypeTransport typeTransport = typeService.getTypeTransportById(typeTransportId);
-        List<Ligne> lignes = ligneService.getLignesByIds(ligneIds);
 
-        MoyenTransport moyenTransport = new MoyenTransport();
-        moyenTransport.setCode(code);
-        moyenTransport.setTypeTransport(typeTransport);
-        moyenTransport.setLignes(new HashSet<>(lignes));
+@Transactional
+public MoyenTransport createMoyenTransport(String code, Long typeTransportId, List<Long> ligneIds) {
 
-        return moyenTransportRepository.save(moyenTransport);
+    if (moyenTransportRepository.existsByCodeAndTypeTransportId(code, typeTransportId)) {
+        throw new IllegalArgumentException("Moyen de transport avec le même code et type existe déjà");
     }
+
+    TypeTransport typeTransport = typeService.getTypeTransportById(typeTransportId);
+    List<Ligne> lignes = ligneService.getLignesByIds(ligneIds);
+
+    MoyenTransport moyenTransport = new MoyenTransport();
+    moyenTransport.setCode(code);
+
+    TypeTransportDTO typeTransportDTO = new TypeTransportDTO();
+    typeTransportDTO.setId(typeTransport.getId());
+    typeTransportDTO.setLabel(typeTransport.getLabel());
+
+    moyenTransport.setTypeTransport(typeTransportDTO);
+    moyenTransport.setLignes(new HashSet<>(lignes));
+
+    return moyenTransportRepository.save(moyenTransport);
+}
     @Transactional
     public List<MoyenTransportDTO> getAllMoyensTransportWithDetails() {
         List<MoyenTransport> moyensTransport = moyenTransportRepository.findAll();
@@ -85,7 +102,6 @@ public class MoyenTransportService {
 
         for (MoyenTransport moyenTransport : moyensTransport) {
             TypeTransport typeTransport = moyenTransport.getTypeTransport();
-            Set<Ligne> lignes = moyenTransport.getLignes();
 
             MoyenTransportDTO transportDTO = new MoyenTransportDTO();
             transportDTO.setId(moyenTransport.getId());
@@ -93,7 +109,7 @@ public class MoyenTransportService {
             transportDTO.setTypeTransportLabel(typeTransport.getLabel()); 
 
             List<LigneDTO> ligneDTOs = new ArrayList<>();
-            for (Ligne ligne : lignes) {
+            for (Ligne ligne : moyenTransport.getLignes()) {
                 LigneDTO ligneDTO = new LigneDTO();
                 ligneDTO.setId(ligne.getId());
                 ligneDTO.setCode(ligne.getCode());

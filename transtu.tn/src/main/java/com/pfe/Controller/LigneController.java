@@ -1,6 +1,7 @@
 package com.pfe.Controller;
 
 import java.util.List;
+
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.pfe.Entity.Ligne;
+
 import com.pfe.Request.LigneRequest;
 import com.pfe.Service.LigneService;
 
@@ -23,6 +25,7 @@ public class LigneController {
 
     @Autowired
     private LigneService ligneService;
+ 
 
     @GetMapping(path = "/getAll")
     public ResponseEntity<List<Ligne>> getAllLignes() {
@@ -50,12 +53,10 @@ public class LigneController {
         Ligne updatedLigne = ligneService.updateLigne(id, newCode, newLabel, newDistrictIds); 
         return ResponseEntity.ok(updatedLigne);
     }
-
     @DeleteMapping(path="/deleteLigne/{id}")
     public ResponseEntity<String> deleteLigne(@PathVariable Long id) {
         ligneService.deleteLigne(id);
         return ResponseEntity.ok("Ligne deleted successfully");
     }
-
   
 }

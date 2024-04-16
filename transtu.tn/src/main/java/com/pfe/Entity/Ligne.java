@@ -1,6 +1,7 @@
 package com.pfe.Entity;
 
 import java.util.HashSet;
+
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -99,7 +100,14 @@ public class Ligne {
 		this.itineraires = itineraires;
 	}
 
-	
+	public Set<MoyenTransport> getMoyensTransport() {
+	    Set<MoyenTransport> moyensTransport = new HashSet<>();
+	    for (Itineraire itineraire : itineraires) {
+	        moyensTransport.addAll(itineraire.getMoyensTransport());
+	    }
+	    return moyensTransport;
+	}
+
 
 	
 

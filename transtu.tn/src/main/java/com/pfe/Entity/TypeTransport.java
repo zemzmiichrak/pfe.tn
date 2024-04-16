@@ -1,13 +1,14 @@
 
 package com.pfe.Entity;
 
-import java.util.HashSet;
-import java.util.Set;
 
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,32 +22,56 @@ public class TypeTransport {
     private Long id;
     
     private String label;
-
-    @OneToMany(mappedBy = "typeTransport", cascade = CascadeType.ALL)
-
-    private Set<MoyenTransport> moyensTransport = new HashSet<>();
+    @OneToMany(mappedBy = "typeTransport", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference // Utilisation de la référence arrière pour éviter la boucle infinie
+    private List<MoyenTransport> moyensTransport;
     
     public TypeTransport() {
     }
 
  
 
-    public Set<MoyenTransport> getMoyensTransport() {
+
+
+
+	
+
+
+	public List<MoyenTransport> getMoyensTransport() {
 		return moyensTransport;
 	}
 
 
 
-	public void setMoyensTransport(Set<MoyenTransport> moyensTransport) {
+
+
+
+
+
+
+	public void setMoyensTransport(List<MoyenTransport> moyensTransport) {
 		this.moyensTransport = moyensTransport;
 	}
 
 
 
-	public TypeTransport(Long id, String label, Set<MoyenTransport> moyensTransport) {
+
+
+
+
+
+
+	public TypeTransport(Long id, String label, List<MoyenTransport> moyensTransport) {
+		super();
 		this.id = id;
 		this.label = label;
 		this.moyensTransport = moyensTransport;
+	}
+
+
+
+	public TypeTransport(String string) {
+		// TODO Auto-generated constructor stub
 	}
 
 
@@ -67,11 +92,18 @@ public class TypeTransport {
         this.label = label;
     }
 
-    @Override
-    public String toString() {
-        return "TypeTransport{" +
-                "id=" + id +
-                ", label='" + label + '\'' +
-                '}';
-    }
+
+
+
+
+
+
+
+
+	@Override
+	public String toString() {
+		return "TypeTransport [id=" + id + ", label=" + label + ", moyensTransport=" + moyensTransport + "]";
+	}
+
+   
 }

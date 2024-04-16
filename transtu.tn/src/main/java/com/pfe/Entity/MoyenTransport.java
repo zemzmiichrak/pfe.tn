@@ -2,6 +2,8 @@ package com.pfe.Entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.pfe.DTO.TypeTransportDTO;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -26,9 +28,9 @@ public class MoyenTransport {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_transport_id")
-   
+    @JsonManagedReference 
     private TypeTransport typeTransport;
-
+    
     @ManyToMany(cascade = CascadeType.REMOVE) 
     @JoinTable(
             name = "moyen_transport_ligne",
@@ -91,6 +93,13 @@ public class MoyenTransport {
 	public void setTypeTransports(Set<TypeTransport> typeTransports) {
 		
 		
+	}
+
+	public void setTypeTransport(TypeTransportDTO typeTransportDTO) {
+	    TypeTransport typeTransport = new TypeTransport();
+	    typeTransport.setId(typeTransportDTO.getId());
+	    typeTransport.setLabel(typeTransportDTO.getLabel());
+	    this.typeTransport = typeTransport;
 	}
 
 	

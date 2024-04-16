@@ -1,5 +1,6 @@
 package com.pfe.Service;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -60,13 +61,17 @@ public class DistrictService{
         List<District> districtsList = districtRepository.findByLabelIn(districtLabels);
         return districtsList.stream().collect(Collectors.toSet());
     }
-    public Set<District> getDistrictsByIds(Set<Long> districtIds) {
-        List<District> districts = districtRepository.findAllById(districtIds);
-        return new HashSet<>(districts);
-    }
+  
     public List<District> getDistrictsByRole(Long id) {
         List<District> districts = districtRepository.findByRolesId(id);
         return districts;
     }
+    public Set<District> getDistrictsByIds(Set<Long> districtIds) {
+        if (districtIds == null) {
+            return Collections.emptySet(); // Return an empty set or handle as needed
+        }
+        List<District> districts = districtRepository.findAllById(districtIds);
+        return new HashSet<>(districts); 
 	
 }
+    }

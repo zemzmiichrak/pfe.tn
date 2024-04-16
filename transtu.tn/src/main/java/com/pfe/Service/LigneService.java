@@ -9,12 +9,19 @@ import org.springframework.stereotype.Service;
 
 import com.pfe.Entity.District;
 import com.pfe.Entity.Ligne;
+import com.pfe.Entity.MoyenTransport;
 import com.pfe.Repository.LigneRepository;
+import com.pfe.Repository.MoyenTransportRepository;
+
+import jakarta.transaction.Transactional;
+
 @Service
 public class LigneService {
 
     @Autowired
     private LigneRepository ligneRepository;
+    @Autowired
+    MoyenTransportRepository  moyenTransportRepository;
     @Autowired
     private DistrictService districtService;
 
@@ -36,9 +43,21 @@ public class LigneService {
 
         return ligneRepository.save(ligne);
     }
-
+    @Transactional
     public void deleteLigne(Long id) {
-        if (ligneRepository.existsById(id)) {
+        Optional<Ligne> ligneOptional = ligneRepository.findById(id);
+        if (ligneOptional.isPresent()) {
+            Ligne ligne = ligneOptional.get();
+
+      
+            Set<MoyenTransport> moyensTransport = ligne.getMoyensTransport();
+            for (MoyenTransport moyenTransport : moyensTransport) {
+                moyenTransport.getLignes().remove(ligne);
+            }
+
+          
+            moyenTransportRepository.deleteAllByLignesContains(ligne);
+
             ligneRepository.deleteById(id);
         } else {
             throw new IllegalArgumentException("Ligne not found with ID: " + id);

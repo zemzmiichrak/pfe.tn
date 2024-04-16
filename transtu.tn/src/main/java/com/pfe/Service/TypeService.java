@@ -15,15 +15,14 @@ public class TypeService {
 
     @Transactional
     public void createTypeTransports() {
-        TypeTransport tgm = new TypeTransport(null, "TGM", null);
-        TypeTransport metro = new TypeTransport(null, "Metro", null);
-        TypeTransport bus = new TypeTransport(null, "Bus", null);
-        
+        TypeTransport tgm = new TypeTransport("TGM");
+        TypeTransport metro = new TypeTransport("Metro");
+        TypeTransport bus = new TypeTransport("Bus");
+
         typeTransportRepository.save(tgm);
         typeTransportRepository.save(metro);
         typeTransportRepository.save(bus);
     }
-
     @Transactional
     public TypeTransport getTypeTransportById(Long typeTransportId) {
         return typeTransportRepository.findById(typeTransportId)
