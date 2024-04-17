@@ -1,11 +1,17 @@
 package com.pfe.Entity;
 
 import java.util.HashSet;
+
+
 import java.util.Set;
+
+
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
 import jakarta.persistence.ManyToMany;
 
 @Entity
@@ -18,8 +24,7 @@ public class Itineraire {
     private String code;
 
     private String description;
-
-    @ManyToMany(mappedBy = "itineraires")
+    @ManyToMany
     private Set<Ligne> lignes = new HashSet<>();
 
     @ManyToMany

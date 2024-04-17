@@ -52,11 +52,10 @@ public class ItineraireController {
     }
 
     @GetMapping(path="/getAll")
-    public ResponseEntity<List<Itineraire>> getAllItineraires() {
+    public ResponseEntity<List<Itineraire>> getAllItinerairesWithLignes() {
         List<Itineraire> itineraires = itineraireService.getAllItineraires();
         return ResponseEntity.ok(itineraires);
     }
-    
     
     @PutMapping(path="/addPoints/{itineraireId}")
     public ResponseEntity<Itineraire> addPointsToItineraire(

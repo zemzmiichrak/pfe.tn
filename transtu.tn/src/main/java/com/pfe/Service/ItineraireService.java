@@ -89,9 +89,14 @@ public class ItineraireService {
     }
     
     public List<Itineraire> getAllItineraires() {
-        return itineraireRepository.findAll();
+        List<Itineraire> itineraires = itineraireRepository.findAll();
+        for (Itineraire itineraire : itineraires) {
+            Set<Ligne> lignes = itineraire.getLignes(); // Récupérer les lignes associées à cet itinéraire
+            itineraire.setLignes(lignes); // Mettre à jour les lignes associées dans l'objet Itineraire
+        }
+        return itineraires;
     }
-    
+
     public Itineraire addPointsToItineraire(Long itineraireId, Set<Long> pointsGPSIds) {
         Optional<Itineraire> existingItineraire = itineraireRepository.findById(itineraireId);
         if (existingItineraire.isPresent()) {
