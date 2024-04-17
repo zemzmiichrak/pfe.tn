@@ -23,24 +23,17 @@ public class TypeTransport {
     
     private String label;
     @OneToMany(mappedBy = "typeTransport", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonBackReference // Utilisation de la référence arrière pour éviter la boucle infinie
+    @JsonBackReference 
     private List<MoyenTransport> moyensTransport;
     
     public TypeTransport() {
     }
 
- 
-
-
-
-
-	
 
 
 	public List<MoyenTransport> getMoyensTransport() {
 		return moyensTransport;
 	}
-
 
 
 
@@ -55,12 +48,6 @@ public class TypeTransport {
 
 
 
-
-
-
-
-
-
 	public TypeTransport(Long id, String label, List<MoyenTransport> moyensTransport) {
 		super();
 		this.id = id;
@@ -70,12 +57,11 @@ public class TypeTransport {
 
 
 
-	public TypeTransport(String string) {
-		// TODO Auto-generated constructor stub
+
+	public TypeTransport(String label) {
+	    this.label = label;
 	}
-
-
-
+	
 	public Long getId() {
         return id;
     }

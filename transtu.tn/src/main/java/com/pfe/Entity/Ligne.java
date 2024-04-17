@@ -1,6 +1,5 @@
 package com.pfe.Entity;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 

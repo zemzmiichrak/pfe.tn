@@ -16,7 +16,7 @@ public class TypeTransportDTO {
 		this.label = label;
 	}
 	public TypeTransportDTO(Long id, String label) {
-		super();
+		
 		this.id = id;
 		this.label = label;
 	}
