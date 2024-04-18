@@ -29,11 +29,12 @@ public class RoleController {
         this.roleService = roleService;
     }
 
-    @PostMapping(path ="/create")
+    @PostMapping(path = "/create")
     public ResponseEntity<String> createRole(@RequestBody RoleRequest roleRequest) {
         roleService.createRole(roleRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body("Role created successfully");
     }
+
     @GetMapping(path = "/getAll")
     public ResponseEntity<List<Role>> getAllRoles() {
         List<Role> roles = roleService.getAllRolesWithDistricts();
@@ -48,6 +49,7 @@ public class RoleController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Role not found or could not be deleted");
         }
     }
+
 
     @PutMapping(path = "/update/{id}")
     public ResponseEntity<String> updateRole(@PathVariable("id") Long id, @RequestBody RoleRequest roleRequest) {

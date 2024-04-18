@@ -3,6 +3,7 @@ package com.pfe.Service;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.pfe.Entity.District;
 import com.pfe.Repository.DistrictRepository;
+import com.pfe.Request.DistrictRequest;
 
 @Service
 public class DistrictService{
@@ -74,4 +76,27 @@ public class DistrictService{
         return new HashSet<>(districts); 
 	
 }
+    
+    public District createDistrict(DistrictRequest districtRequest) {
+        District district = new District();
+        district.setLabel(districtRequest.getLabel());
+        district.setAddress(districtRequest.getAddress());
+        return districtRepository.save(district);
+    }
+    
+    public District createDistrict(District district) {
+        return districtRepository.save(district);
+    }
+
+    public District getDistrictById(Long districtId) {
+        Optional<District> optionalDistrict = districtRepository.findById(districtId);
+        if (optionalDistrict.isPresent()) {
+            return optionalDistrict.get();
+        } else {
+            throw new IllegalArgumentException("District not found with ID: " + districtId);
+            
+        }
+    }
+    
+    
     }

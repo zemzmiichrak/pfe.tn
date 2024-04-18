@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,6 @@ public class RoleService {
         this.roleRepository = roleRepository;
         this.districtService = districtService;
     }
-
     public void createRole(RoleRequest roleRequest) {
         Optional<Role> existingRole = roleRepository.findByLabel(roleRequest.getLabel());
         if (existingRole.isPresent()) {
@@ -35,8 +35,13 @@ public class RoleService {
         role.setLabel(roleRequest.getLabel());
         role.setDescription(roleRequest.getDescription());
 
-        Set<District> districts = districtService.getDistrictsByIds(roleRequest.getDistrictIds());
-        role.setDistricts(districts);
+        Set<District> existingDistricts = new HashSet<>();
+        for (District district : roleRequest.getDistricts()) {
+            // Assuming districts already exist in the database, fetch them by ID
+            District existingDistrict = districtService.getDistrictById(district.getDistrictId());
+            existingDistricts.add(existingDistrict);
+        }
+        role.setDistricts(existingDistricts);
 
         roleRepository.save(role);
     }
@@ -47,14 +52,22 @@ public class RoleService {
             Role role = optionalRole.get();
             role.setLabel(roleRequest.getLabel());
             role.setDescription(roleRequest.getDescription());
-            Set<District> districts = districtService.getDistrictsByIds(roleRequest.getDistrictIds());
-            role.setDistricts(districts);
+
+            Set<District> existingDistricts = new HashSet<>();
+            for (District district : roleRequest.getDistricts()) {
+                // Assuming districts already exist in the database, fetch them by ID
+                District existingDistrict = districtService.getDistrictById(district.getDistrictId());
+                existingDistricts.add(existingDistrict);
+            }
+            role.setDistricts(existingDistricts);
+
             roleRepository.save(role);
             return ResponseEntity.ok("Role updated successfully");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Role not found");
         }
     }
+
 
 
     public List<Role> getAllRolesWithDistricts() {

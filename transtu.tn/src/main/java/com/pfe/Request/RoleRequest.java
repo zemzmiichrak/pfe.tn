@@ -1,11 +1,14 @@
+
 package com.pfe.Request;
 
-import java.util.Set;
+import java.util.List;
+
+import com.pfe.Entity.District;
 
 public class RoleRequest {
     private String label;
     private String description;
-    private Set<Long> districtIds; 
+    private List<District> districts;
     
 	public String getLabel() {
 		return label;
@@ -20,27 +23,15 @@ public class RoleRequest {
 		this.description = description;
 	}
 	
-	
-
-	
-	public Set<Long> getDistrictIds() {
-		return districtIds;
+	  public RoleRequest() {
+		
 	}
-	public void setDistrictIds(Set<Long> districtIds) {
-		this.districtIds = districtIds;
+	public List<District> getDistricts() {
+		return districts;
 	}
-
-	@Override
-	public String toString() {
-		return "RoleRequest [label=" + label + ", description=" + description + ", districtIds=" + districtIds + "]";
-	}
-	public RoleRequest(String label, String description, Set<Long> districtIds) {
-		super();
-		this.label = label;
-		this.description = description;
-		this.districtIds = districtIds;
+	public void setDistricts(List<District> districts) {
+		this.districts = districts;
 	}
 
-	
-	
+
 }

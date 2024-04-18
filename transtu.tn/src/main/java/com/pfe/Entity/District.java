@@ -82,6 +82,9 @@ public class District {
         this.address = address;
     }
 
+    public Long getId() {
+        return districtId;
+    }
  
    
 }

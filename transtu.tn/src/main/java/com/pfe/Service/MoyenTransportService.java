@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.pfe.DTO.LigneDTO;
 import com.pfe.DTO.MoyenTransportDTO;
 import com.pfe.DTO.TypeTransportDTO;
 import com.pfe.Entity.Ligne;
@@ -33,7 +34,7 @@ public class MoyenTransportService {
             throw new IllegalArgumentException("Moyen de transport avec le même code et type existe déjà");
         }
 
-        TypeTransport typeTransport = typeService.getTypeTransportById(typeTransportId); // Récupération du type de transport depuis la base de données
+        TypeTransport typeTransport = typeService.getTypeTransportById(typeTransportId); 
 
         if (typeTransport == null || typeTransport.getLabel() == null) {
             throw new IllegalArgumentException("Le type de transport spécifié est invalide ou n'a pas de label défini.");
@@ -94,33 +95,29 @@ public MoyenTransport createMoyenTransport(String code, Long typeTransportId, Li
     moyenTransport.setLignes(new HashSet<>(lignes));
 
     return moyenTransportRepository.save(moyenTransport);
-}
-    @Transactional
-    public List<MoyenTransportDTO> getAllMoyensTransportWithDetails() {
-        List<MoyenTransport> moyensTransport = moyenTransportRepository.findAll();
-        List<MoyenTransportDTO> transportDTOs = new ArrayList<>();
+}@Transactional
+public List<MoyenTransportDTO> getAllMoyensTransportWithDetails() {
+    List<MoyenTransport> moyensTransport = moyenTransportRepository.findAll();
+    List<MoyenTransportDTO> transportDTOs = new ArrayList<>();
 
-        for (MoyenTransport moyenTransport : moyensTransport) {
-            TypeTransport typeTransport = moyenTransport.getTypeTransport();
+    for (MoyenTransport moyenTransport : moyensTransport) {
+        MoyenTransportDTO transportDTO = new MoyenTransportDTO();
+        transportDTO.setId(moyenTransport.getId());
+        transportDTO.setCode(moyenTransport.getCode());
 
-            MoyenTransportDTO transportDTO = new MoyenTransportDTO();
-            transportDTO.setId(moyenTransport.getId());
-            transportDTO.setCode(moyenTransport.getCode());
-            transportDTO.setTypeTransportLabel(typeTransport.getLabel()); 
+        TypeTransportDTO typeTransportDTO = new TypeTransportDTO();
+        typeTransportDTO.setId(moyenTransport.getTypeTransport().getId());
+        typeTransportDTO.setLabel(moyenTransport.getTypeTransport().getLabel());
+        transportDTO.setTypeTransport(typeTransportDTO);
 
-            List<LigneDTO> ligneDTOs = new ArrayList<>();
-            for (Ligne ligne : moyenTransport.getLignes()) {
-                LigneDTO ligneDTO = new LigneDTO();
-                ligneDTO.setId(ligne.getId());
-                ligneDTO.setCode(ligne.getCode());
-                ligneDTO.setLabel(ligne.getLabel());
-                ligneDTOs.add(ligneDTO);
-            }
+        List<Long> ligneIds = moyenTransport.getLignes().stream()
+            .map(Ligne::getId)
+            .collect(Collectors.toList());
+        transportDTO.setLigneIds(ligneIds);
 
-            transportDTO.setLignes(ligneDTOs);
-            transportDTOs.add(transportDTO);
-        }
-
-        return transportDTOs;
+        transportDTOs.add(transportDTO);
     }
+
+    return transportDTOs;
+}
 }
