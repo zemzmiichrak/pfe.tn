@@ -37,7 +37,7 @@ public class RoleService {
 
         Set<District> existingDistricts = new HashSet<>();
         for (District district : roleRequest.getDistricts()) {
-            // Assuming districts already exist in the database, fetch them by ID
+
             District existingDistrict = districtService.getDistrictById(district.getDistrictId());
             existingDistricts.add(existingDistrict);
         }
@@ -55,7 +55,7 @@ public class RoleService {
 
             Set<District> existingDistricts = new HashSet<>();
             for (District district : roleRequest.getDistricts()) {
-                // Assuming districts already exist in the database, fetch them by ID
+       
                 District existingDistrict = districtService.getDistrictById(district.getDistrictId());
                 existingDistricts.add(existingDistrict);
             }

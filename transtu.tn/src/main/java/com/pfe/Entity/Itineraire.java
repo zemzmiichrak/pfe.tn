@@ -88,12 +88,5 @@ public class Itineraire {
 	 public Itineraire() {
 	    }
 
-	 public Set<MoyenTransport> getMoyensTransport() {
-		    Set<MoyenTransport> moyensTransport = new HashSet<>();
-		    for (Ligne ligne : lignes) {
-		        moyensTransport.addAll(ligne.getMoyensTransport());
-		    }
-		    return moyensTransport;
-		}
 
 }

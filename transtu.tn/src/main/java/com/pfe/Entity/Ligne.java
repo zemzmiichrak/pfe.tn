@@ -1,8 +1,6 @@
 package com.pfe.Entity;
-
 import java.util.HashSet;
 import java.util.Set;
-
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,8 +29,7 @@ public class Ligne {
     )
     
     private Set<District> districts = new HashSet<>();
-    @ManyToMany(mappedBy = "lignes") // Définition de la relation Many-to-Many avec la classe MoyenTransport
-    private Set<MoyenTransport> moyensTransport = new HashSet<>();
+
 
 	public Long getId() {
 		return id;
@@ -66,39 +63,26 @@ public class Ligne {
 		this.districts = districts;
 	}
 
-	public Ligne() {
-		
-	}
 
-
-	
-
-	
-
-	@Override
-	public String toString() {
-		return "Ligne [id=" + id + ", code=" + code + ", label=" + label + ", districts=" + districts
-				+ ", moyensTransport=" + moyensTransport + "]";
-	}
-
-	public Ligne(Long id, String code, String label, Set<District> districts, Set<MoyenTransport> moyensTransport) {
+	public Ligne(Long id, String code, String label, Set<District> districts) {
 		super();
 		this.id = id;
 		this.code = code;
 		this.label = label;
 		this.districts = districts;
-		this.moyensTransport = moyensTransport;
 	}
 
-	public void setMoyensTransport(Set<MoyenTransport> moyensTransport) {
-		this.moyensTransport = moyensTransport;
+	@Override
+	public String toString() {
+		return "Ligne [id=" + id + ", code=" + code + ", label=" + label + ", districts=" + districts + "]";
 	}
-	
-	
-	public Set<MoyenTransport> getMoyensTransport() {
-	    return moyensTransport;
+
+	public Ligne() {
+		
 	}
-	
+
+
+
 
 
   

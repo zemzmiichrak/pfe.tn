@@ -41,18 +41,19 @@ public class LigneController {
         Ligne newLigne = ligneService.addLigne(code, label, districtIds); 
         return ResponseEntity.status(HttpStatus.CREATED).body(newLigne);
     }
-    @PutMapping(path="/updateLigne/{id}")
+    @PutMapping("/updateLigne/{id}")
     public ResponseEntity<Ligne> updateLigne(
             @PathVariable Long id,
             @RequestBody LigneRequest updateLigneRequest
     ) {
         String newCode = updateLigneRequest.getCode();
         String newLabel = updateLigneRequest.getLabel();
-        Set<Long> newDistrictIds = updateLigneRequest.getDistrictIds(); 
+        Set<Long> newDistrictIds = updateLigneRequest.getDistrictIds();
 
-        Ligne updatedLigne = ligneService.updateLigne(id, newCode, newLabel, newDistrictIds); 
+        Ligne updatedLigne = ligneService.updateLigne(id, newCode, newLabel, newDistrictIds);
         return ResponseEntity.ok(updatedLigne);
     }
+
     @DeleteMapping(path="/deleteLigne/{id}")
     public ResponseEntity<String> deleteLigne(@PathVariable Long id) {
         ligneService.deleteLigne(id);
