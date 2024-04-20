@@ -1,6 +1,7 @@
 package com.pfe.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,5 +14,6 @@ public interface DistrictRepository extends JpaRepository<District, Long> {
 
 	 List<District> findByLabelIn(Set<String> districtLabels);
 	 List<District> findByRolesId(Long roleId);
+	 Optional<District> findByLabel(String label);
   
 }

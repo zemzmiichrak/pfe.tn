@@ -1,8 +1,6 @@
 package com.pfe.Controller;
 
 import java.util.List;
-
-import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.pfe.Entity.Ligne;
-
+import com.pfe.Entity.District;
 import com.pfe.Request.LigneRequest;
 import com.pfe.Service.LigneService;
 
@@ -25,7 +23,6 @@ public class LigneController {
 
     @Autowired
     private LigneService ligneService;
- 
 
     @GetMapping(path = "/getAll")
     public ResponseEntity<List<Ligne>> getAllLignes() {
@@ -36,11 +33,12 @@ public class LigneController {
     public ResponseEntity<Ligne> addLigne(@RequestBody LigneRequest addLigneRequest) {
         String code = addLigneRequest.getCode();
         String label = addLigneRequest.getLabel();
-        Set<Long> districtIds = addLigneRequest.getDistrictIds(); 
+        List<District> districts = addLigneRequest.getDistricts();
 
-        Ligne newLigne = ligneService.addLigne(code, label, districtIds); 
+        Ligne newLigne = ligneService.addLigne(code, label, districts);
         return ResponseEntity.status(HttpStatus.CREATED).body(newLigne);
     }
+
     @PutMapping("/updateLigne/{id}")
     public ResponseEntity<Ligne> updateLigne(
             @PathVariable Long id,
@@ -48,9 +46,9 @@ public class LigneController {
     ) {
         String newCode = updateLigneRequest.getCode();
         String newLabel = updateLigneRequest.getLabel();
-        Set<Long> newDistrictIds = updateLigneRequest.getDistrictIds();
+        List<District> newDistricts = updateLigneRequest.getDistricts();
 
-        Ligne updatedLigne = ligneService.updateLigne(id, newCode, newLabel, newDistrictIds);
+        Ligne updatedLigne = ligneService.updateLigne(id, newCode, newLabel, newDistricts);
         return ResponseEntity.ok(updatedLigne);
     }
 
@@ -59,5 +57,4 @@ public class LigneController {
         ligneService.deleteLigne(id);
         return ResponseEntity.ok("Ligne deleted successfully");
     }
-  
 }

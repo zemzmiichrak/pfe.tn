@@ -1,56 +1,56 @@
 package com.pfe.Request;
 
-import java.util.Set;
+import java.util.List;
+import com.pfe.Entity.District;
 
 public class LigneRequest {
+	 private Long districtId;
+    private String code;
+    private String label;
+    private List<District> districts;
 
-	  private String code;
+    public String getCode() {
+        return code;
+    }
 
-	  private String label;
+    public void setCode(String code) {
+        this.code = code;
+    }
 
+    public String getLabel() {
+        return label;
+    }
 
-      private Set<Long> districtIds; 
-	  
+    public void setLabel(String label) {
+        this.label = label;
+    }
 
-	public String getCode() {
-		return code;
+    public List<District> getDistricts() {
+        return districts;
+    }
+
+    public void setDistricts(List<District> districts) {
+        this.districts = districts;
+    }
+
+  
+    public Long getDistrictId() {
+		return districtId;
 	}
 
-	public void setCode(String code) {
+	public void setDistrictId(Long districtId) {
+		this.districtId = districtId;
+	}
+
+	public LigneRequest(Long districtId, String code, String label, List<District> districts) {
+	
+		this.districtId = districtId;
 		this.code = code;
-	}
-
-	public String getLabel() {
-		return label;
-	}
-
-	public void setLabel(String label) {
 		this.label = label;
-	}
-
-
-
-
-
-	public Set<Long> getDistrictIds() {
-		return districtIds;
-	}
-
-	public void setDistrictIds(Set<Long> districtIds) {
-		this.districtIds = districtIds;
-	}
-
-	public LigneRequest(String code, String label, Set<Long> districtIds) {
-		super();
-		this.code = code;
-		this.label = label;
-		this.districtIds = districtIds;
+		this.districts = districts;
 	}
 
 	public LigneRequest() {
-		
-	}
-
-	
-
+        
+    }
 }

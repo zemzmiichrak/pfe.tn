@@ -1,14 +1,15 @@
 package com.pfe.Request;
 
 public class DistrictRequest {
-	 private Long districtId;
+	 private Long id;
      private String label;
 	 private String address;
-	public Long getDistrictId() {
-		return districtId;
+
+	public Long getId() {
+		return id;
 	}
-	public void setDistrictId(Long districtId) {
-		this.districtId = districtId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public String getLabel() {
 		return label;

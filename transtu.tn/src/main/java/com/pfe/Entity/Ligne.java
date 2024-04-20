@@ -1,6 +1,7 @@
 package com.pfe.Entity;
-import java.util.HashSet;
-import java.util.Set;
+
+import java.util.List;
+
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,7 +29,7 @@ public class Ligne {
             inverseJoinColumns = @JoinColumn(name = "district_id")
     )
     
-    private Set<District> districts = new HashSet<>();
+    private List<District> districts;
 
 
 	public Long getId() {
@@ -55,16 +56,17 @@ public class Ligne {
 		this.label = label;
 	}
 
-	public Set<District> getDistricts() {
+
+
+	public List<District> getDistricts() {
 		return districts;
 	}
 
-	public void setDistricts(Set<District> districts) {
+	public void setDistricts(List<District> districts) {
 		this.districts = districts;
 	}
 
-
-	public Ligne(Long id, String code, String label, Set<District> districts) {
+	public Ligne(Long id, String code, String label, List<District> districts) {
 		super();
 		this.id = id;
 		this.code = code;

@@ -95,5 +95,10 @@ public class DistrictService{
             throw new IllegalArgumentException("District not found with ID: " + districtId);
         }
     }
+    public District saveDistrict(District district) {
+        Optional<District> existingDistrict = districtRepository.findByLabel(district.getLabel());
+        return existingDistrict.orElseGet(() -> districtRepository.save(district));
+    }
+
     
     }

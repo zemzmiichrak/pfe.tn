@@ -16,7 +16,7 @@ public class District {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long districtId;
+    private Long id;
     private String label;
     private String address;
 
@@ -27,7 +27,28 @@ public class District {
     private Set<Role> roles = new HashSet<>();
 
     
-    public District() {
+    public District(Long id, String label, String address, Set<Role> roles) {
+		super();
+		this.id = id;
+		this.label = label;
+		this.address = address;
+		this.roles = roles;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "District [id=" + id + ", label=" + label + ", address=" + address + ", roles=" + roles + "]";
+	}
+
+	public District() {
        
     }
 
@@ -40,32 +61,8 @@ public class District {
 	}
 
 
-	
-    public District(Long districtId, String label, String address,  Set<Role> roles) {
-		super();
-		this.districtId = districtId;
-		this.label = label;
-		this.address = address;
-		this.roles = roles;
-	}
 
 	
-	
-
-	@Override
-	public String toString() {
-		return "District [districtId=" + districtId + ", label=" + label + ", address=" + address + ", roles=" + roles
-				+ "]";
-	}
-
-	public Long getDistrictId() {
-        return districtId;
-    }
-
-    public void setDistrictId(Long districtId) {
-        this.districtId = districtId;
-    }
-
     public String getLabel() {
         return label;
     }
@@ -82,9 +79,6 @@ public class District {
         this.address = address;
     }
 
-    public Long getId() {
-        return districtId;
-    }
- 
+
    
 }

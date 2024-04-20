@@ -41,7 +41,7 @@ public class RoleService {
 
         Set<District> existingDistricts = new HashSet<>();
         for (District district : roleRequest.getDistricts()) {
-            District existingDistrict = districtService.getDistrictById(district.getDistrictId());
+            District existingDistrict = districtService.getDistrictById(district.getId());
             existingDistricts.add(existingDistrict);
         }
         role.setDistrictsSet(existingDistricts);
@@ -59,7 +59,7 @@ public class RoleService {
             Set<District> existingDistricts = new HashSet<>();
             for (District district : roleRequest.getDistricts()) {
        
-                District existingDistrict = districtService.getDistrictById(district.getDistrictId());
+                District existingDistrict = districtService.getDistrictById(district.getId());
                 existingDistricts.add(existingDistrict);
             }
             role.setDistrictsSet(existingDistricts);
