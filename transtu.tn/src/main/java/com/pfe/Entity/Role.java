@@ -34,7 +34,7 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     @JsonIgnore
     private Set<User> users = new HashSet<>();
-
+    
     @ManyToMany(mappedBy = "roles")
     private Set<UserCredentials> userCredentials = new HashSet<>();
 
@@ -71,14 +71,7 @@ public class Role {
         this.districts = districts;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-
+ 
     public Set<UserCredentials> getUserCredentials() {
         return userCredentials;
     }
@@ -87,30 +80,39 @@ public class Role {
         this.userCredentials = userCredentials;
     }
 
-    // Constructors, toString, and other methods
     public Role() {
     }
 
-    public Role(Long id, String label, String description, List<District> districts, Set<User> users,
-            Set<UserCredentials> userCredentials) {
-        this.id = id;
-        this.label = label;
-        this.description = description;
-        this.districts = districts;
-        this.users = users;
-        this.userCredentials = userCredentials;
-    }
 
-    @Override
-    public String toString() {
-        return "Role [id=" + id + ", label=" + label + ", description=" + description + ", districts=" + districts
-                + ", users=" + users + ", userCredentials=" + userCredentials + "]";
-    }
 
-    public void setDistricts(Set<District> districtsSet) {
-        this.districts = new ArrayList<>(districtsSet);
-    }
-    
-    
+	@Override
+	public String toString() {
+		return "Role [id=" + id + ", label=" + label + ", description=" + description + ", districts=" + districts
+				+ ", users=" + users + ", userCredentials=" + userCredentials + "]";
+	}
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
+	}
+
+	public Role(Long id, String label, String description, List<District> districts, Set<User> users,
+			Set<UserCredentials> userCredentials) {
+		super();
+		this.id = id;
+		this.label = label;
+		this.description = description;
+		this.districts = districts;
+		this.users = users;
+		this.userCredentials = userCredentials;
+	}
+
+	  public void setDistrictsSet(Set<District> districtsSet) {
+	        this.districts = new ArrayList<>(districtsSet);
+	    }
+
 
 }

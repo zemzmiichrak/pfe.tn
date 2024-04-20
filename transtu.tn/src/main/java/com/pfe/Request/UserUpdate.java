@@ -1,23 +1,26 @@
 package com.pfe.Request;
 
-import java.util.Set;
+import java.util.List;
+
+
+import com.pfe.Entity.Role;
 
 public class UserUpdate {
-	  private Long id;
+	    private Long id;
 	    private String firstName;
 	    private String lastName;
 	    private String phoneNumber;
 	    private String address;
 	    private String email;
 	    private String password;
-	    private Set<Long> roleIds; 
-		
+	    private String username;
+	    private List<Role> roles;
 	
 		@Override
 		public String toString() {
 			return "UserUpdate [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phoneNumber="
 					+ phoneNumber + ", address=" + address + ", email=" + email + ", password=" + password
-					+ ", roleIds=" + roleIds + "]";
+					+ ", username=" + username + ", roles=" + roles + "]";
 		}
 		public Long getId() {
 			return id;
@@ -61,14 +64,20 @@ public class UserUpdate {
 		public void setPassword(String password) {
 			this.password = password;
 		}
-		public Set<Long> getRoleIds() {
-			return roleIds;
+		public String getUsername() {
+			return username;
 		}
-		public void setRoleIds(Set<Long> roleIds) {
-			this.roleIds = roleIds;
+		public void setUsername(String username) {
+			this.username = username;
+		}
+		public List<Role> getRoles() {
+			return roles;
+		}
+		public void setRoles(List<Role> roles) {
+			this.roles = roles;
 		}
 		public UserUpdate(Long id, String firstName, String lastName, String phoneNumber, String address, String email,
-				String password, Set<Long> roleIds) {
+				String password, String username, List<Role> roles) {
 			super();
 			this.id = id;
 			this.firstName = firstName;
@@ -77,9 +86,10 @@ public class UserUpdate {
 			this.address = address;
 			this.email = email;
 			this.password = password;
-			this.roleIds = roleIds;
+			this.username = username;
+			this.roles = roles;
 		}
-		
+	
 	
 		
 	}

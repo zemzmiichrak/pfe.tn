@@ -1,6 +1,6 @@
 package com.pfe.Entity;
 
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -23,6 +23,7 @@ public class User {
     private String address;
     private String email;
     private String password;
+    private String username;
 
     
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -34,11 +35,15 @@ public class User {
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Role> roles = new HashSet<>();
+
+    private List<Role> roles;
+
+
+
 
 	public User(Long id, String firstName, String lastName, String phoneNumber, String address, String email,
-			String password, UserCredentials credentials, Set<Role> roles) {
-		
+			String password, String username, UserCredentials credentials, List<Role> roles) {
+		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -46,6 +51,7 @@ public class User {
 		this.address = address;
 		this.email = email;
 		this.password = password;
+		this.username = username;
 		this.credentials = credentials;
 		this.roles = roles;
 	}
@@ -170,23 +176,40 @@ public class User {
 	}
 
 
-	public Set<Role> getRoles() {
+
+
+    public List<Role> getRoles() {
 		return roles;
 	}
 
 
 
 
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
 
 
-    @Override
+
+	public String getUsername() {
+		return username;
+	}
+
+
+
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
+
+
+	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phoneNumber=" + phoneNumber
-				+ ", address=" + address + ", email=" + email + ", password=" + password + ", credentials="
-				+ credentials + ", roles=" + roles + "]";
+				+ ", address=" + address + ", email=" + email + ", password=" + password + ", username=" + username
+				+ ", credentials=" + credentials + ", roles=" + roles + "]";
 	}
 
 
@@ -196,7 +219,11 @@ public class User {
 		
 		
 	}
-	
+
+
+
+
+
 
 	
 }

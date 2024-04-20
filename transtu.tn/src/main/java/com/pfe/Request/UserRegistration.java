@@ -1,13 +1,14 @@
 package com.pfe.Request;
 
-import java.util.Set;
+import java.util.List;
 
+import com.pfe.Entity.Role;
 import com.pfe.Entity.UserCredentials;
 
 public class UserRegistration {
     private UserSave userSave;
     private UserCredentials credentials;
-    private Set<Long> roleIds; 
+    private List<Role> roles;
     public UserSave getUserSave() {
         return userSave;
     }
@@ -24,13 +25,16 @@ public class UserRegistration {
         this.credentials = credentials;
     }
 
-	public Set<Long> getRoleIds() {
-		return roleIds;
+	public List<Role> getRoles() {
+		return roles;
 	}
 
-	public void setRoleIds(Set<Long> roleIds) {
-		this.roleIds = roleIds;
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
+
+
+	
 
   
 	

@@ -2,24 +2,14 @@ package com.pfe.Controller;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.pfe.Entity.UserCredentials;
 import com.pfe.Request.UserCredentialsLogin;
 import com.pfe.Request.UserRegistration;
 import com.pfe.Request.UserRequest;
-import com.pfe.Request.UserSave;
 import com.pfe.Request.UserUpdating;
 import com.pfe.Service.UserService;
 
@@ -40,8 +30,8 @@ public class UserController {
         if (userService.checkIfUserExists(userRegistration.getUserSave().getEmail())) {
             throw new IllegalStateException("User with email " + userRegistration.getUserSave().getEmail() + " already exists");
         }
-        String firstName = userService.registerUser(userRegistration.getUserSave(), userRegistration.getCredentials());
-        return ResponseEntity.status(HttpStatus.CREATED).body(firstName + " registered successfully");
+        userService.addUser(userRegistration.getUserSave(), userRegistration.getCredentials(), userRegistration.getRoles());
+        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
     
     @PostMapping(path = "/save")
@@ -51,11 +41,7 @@ public class UserController {
                 return ResponseEntity.badRequest().body("User registration data is incomplete");
             }
 
-            UserSave userSave = userRegistration.getUserSave();
-            UserCredentials credentials = userRegistration.getCredentials();
-            Set<Long> roleIds = userRegistration.getRoleIds(); 
-
-            userService.addUser(userSave, credentials, roleIds); 
+            userService.addUser(userRegistration.getUserSave(), userRegistration.getCredentials(), userRegistration.getRoles()); 
             return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register user: " + e.getMessage());
@@ -80,7 +66,7 @@ public class UserController {
 
     @PutMapping(path = "/update")
     public ResponseEntity<String> updateUser(@RequestBody UserUpdating userUpdating) {
-        userService.updateUser(userUpdating.getUserUpdate(), userUpdating.getUpdatedCredentials(), userUpdating.getRoleIds());
+        userService.updateUser(userUpdating.getUserUpdate(), userUpdating.getUpdatedCredentials(), userUpdating.getRoles());
         return ResponseEntity.ok("User updated successfully");
     }
 
@@ -120,6 +106,7 @@ public class UserController {
 
         return ResponseEntity.ok("Password updated successfully");
     }
+    
     @GetMapping("/showUser/{id}")
     public ResponseEntity<UserRequest> showUser(@PathVariable Long id) {
         try {

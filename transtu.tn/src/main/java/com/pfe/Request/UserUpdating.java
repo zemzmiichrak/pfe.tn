@@ -1,7 +1,9 @@
 package com.pfe.Request;
 
-import java.util.Set;
+import java.util.List;
 
+
+import com.pfe.Entity.Role;
 import com.pfe.Entity.UserCredentials;
 
 
@@ -9,7 +11,7 @@ import com.pfe.Entity.UserCredentials;
       public class UserUpdating {
 	  private UserUpdate userUpdate;
 	    private UserCredentials credentials;
-	    private Set<Long> roleIds; 
+	    private List<Role> roles;
 		public UserUpdate getUserUpdate() {
 			return userUpdate;
 		}
@@ -26,13 +28,13 @@ import com.pfe.Entity.UserCredentials;
 			// TODO Auto-generated method stub
 			return null;
 		}
-		public Set<Long> getRoleIds() {
-			return roleIds;
+		public List<Role> getRoles() {
+			return roles;
 		}
-		public void setRoleIds(Set<Long> roleIds) {
-			this.roleIds = roleIds;
+		public void setRoles(List<Role> roles) {
+			this.roles = roles;
 		}
-	
+
 	
 		
 }

@@ -1,25 +1,36 @@
 package com.pfe.Request;
 
+import java.util.List;
 import java.util.Set;
 
-public class UserSave {
-    private Long id;
-    private String firstName;
-    private String lastName;
-    private String phoneNumber;
-    private String address;
-    private String email;
-    private String password;
-    private Set<Long> roleIds;
+import com.pfe.Entity.Role;
 
+public class UserSave {
+	    private Long id;
+	    private String firstName;
+	    private String lastName;
+	    private String phoneNumber;
+	    private String address;
+	    private String email;
+	    private String password;
+	    private String username;
+	    private List<Role> roles;
 
 	public UserSave() {
 		
 	}
 
 
+	@Override
+	public String toString() {
+		return "UserSave [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phoneNumber="
+				+ phoneNumber + ", address=" + address + ", email=" + email + ", password=" + password + ", username="
+				+ username + ", roles=" + roles + "]";
+	}
+
+
 	public UserSave(Long id, String firstName, String lastName, String phoneNumber, String address, String email,
-			String password, Set<Long> roleIds) {
+			String password, String username, List<Role> roles) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -28,15 +39,8 @@ public class UserSave {
 		this.address = address;
 		this.email = email;
 		this.password = password;
-		this.roleIds = roleIds;
-	}
-
-
-	@Override
-	public String toString() {
-		return "UserSave [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phoneNumber="
-				+ phoneNumber + ", address=" + address + ", email=" + email + ", password=" + password + ", roleIds="
-				+ roleIds + "]";
+		this.username = username;
+		this.roles = roles;
 	}
 
 
@@ -110,13 +114,23 @@ public class UserSave {
 	}
 
 
-	public Set<Long> getRoleIds() {
-		return roleIds;
+	public String getUsername() {
+		return username;
 	}
 
 
-	public void setRoleIds(Set<Long> roleIds) {
-		this.roleIds = roleIds;
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
 

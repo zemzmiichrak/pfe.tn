@@ -26,6 +26,10 @@ public class RoleService {
         this.districtService = districtService;
     }
     public void createRole(RoleRequest roleRequest) {
+        if (roleRequest.getDistricts() == null) {
+            throw new IllegalArgumentException("Districts list cannot be null");
+        }
+
         Optional<Role> existingRole = roleRepository.findByLabel(roleRequest.getLabel());
         if (existingRole.isPresent()) {
             throw new IllegalArgumentException("Role with the same label already exists");
@@ -37,11 +41,10 @@ public class RoleService {
 
         Set<District> existingDistricts = new HashSet<>();
         for (District district : roleRequest.getDistricts()) {
-
             District existingDistrict = districtService.getDistrictById(district.getDistrictId());
             existingDistricts.add(existingDistrict);
         }
-        role.setDistricts(existingDistricts);
+        role.setDistrictsSet(existingDistricts);
 
         roleRepository.save(role);
     }
@@ -59,7 +62,7 @@ public class RoleService {
                 District existingDistrict = districtService.getDistrictById(district.getDistrictId());
                 existingDistricts.add(existingDistrict);
             }
-            role.setDistricts(existingDistricts);
+            role.setDistrictsSet(existingDistricts);
 
             roleRepository.save(role);
             return ResponseEntity.ok("Role updated successfully");
@@ -75,7 +78,7 @@ public class RoleService {
         for (Role role : roles) {
             List<District> districtsList = districtService.getDistrictsByRole(role.getId());
             Set<District> districtsSet = new HashSet<>(districtsList);
-            role.setDistricts(districtsSet);
+            role.setDistrictsSet(districtsSet);
         }
         return roles;
     }

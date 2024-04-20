@@ -54,11 +54,12 @@ public class DistrictService{
     }
   
     public List<District> getAllDistricts() {
-        return districtRepository.findAll();
+        List<District> districts = districtRepository.findAll();
+        if (districts == null || districts.isEmpty()) {
+            throw new IllegalStateException("No districts found");
+        }
+        return districts;
     }
-
- 
-
     public Set<District> getDistrictsByLabels(Set<String> districtLabels) {
         List<District> districtsList = districtRepository.findByLabelIn(districtLabels);
         return districtsList.stream().collect(Collectors.toSet());
@@ -70,33 +71,29 @@ public class DistrictService{
     }
     public Set<District> getDistrictsByIds(Set<Long> districtIds) {
         if (districtIds == null) {
-            return Collections.emptySet(); // Return an empty set or handle as needed
+            return Collections.emptySet(); 
         }
         List<District> districts = districtRepository.findAllById(districtIds);
         return new HashSet<>(districts); 
 	
 }
-    
-    public District createDistrict(DistrictRequest districtRequest) {
+    public District createDistrictFromRequest(DistrictRequest districtRequest) {
         District district = new District();
         district.setLabel(districtRequest.getLabel());
         district.setAddress(districtRequest.getAddress());
         return districtRepository.save(district);
     }
-    
+
     public District createDistrict(District district) {
         return districtRepository.save(district);
     }
-
     public District getDistrictById(Long districtId) {
         Optional<District> optionalDistrict = districtRepository.findById(districtId);
         if (optionalDistrict.isPresent()) {
             return optionalDistrict.get();
         } else {
             throw new IllegalArgumentException("District not found with ID: " + districtId);
-            
         }
     }
-    
     
     }
