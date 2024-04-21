@@ -1,5 +1,5 @@
 package com.pfe.Entity;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import com.pfe.DTO.TypeTransportDTO;
 import jakarta.persistence.CascadeType;
@@ -35,16 +35,11 @@ public class MoyenTransport {
             inverseJoinColumns = @JoinColumn(name = "ligne_id")
     )
     
-    private Set<Ligne> lignes = new HashSet<>();
+    private List<Ligne> lignes ;
 
 
-	public Set<Ligne> getLignes() {
-		return lignes;
-	}
 
-	public void setLignes(Set<Ligne> lignes) {
-		this.lignes = lignes;
-	}
+	
 
 	public Long getId() {
         return id;
@@ -77,8 +72,8 @@ public class MoyenTransport {
 				+ "]";
 	}
 
-	public MoyenTransport(Long id, String code, TypeTransport typeTransport, Set<Ligne> lignes) {
-	
+	public MoyenTransport(Long id, String code, TypeTransport typeTransport, List<Ligne> lignes) {
+		super();
 		this.id = id;
 		this.code = code;
 		this.typeTransport = typeTransport;
@@ -101,6 +96,12 @@ public class MoyenTransport {
 	    this.typeTransport = typeTransport;
 	}
 
-	
+	public List<Ligne> getLignes() {
+		return lignes;
+	}
+
+	public void setLignes(List<Ligne> lignes) {
+		this.lignes = lignes;
+	}
 
 }

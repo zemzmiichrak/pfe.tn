@@ -1,30 +1,20 @@
 package com.pfe.Request;
 
-import java.util.Set;
+import java.util.List;
+
+
+import com.pfe.Entity.Ligne;
 
 
 
 public class MoyenTransportRequest {
 	   private String code;
 	    private Long typeTransportId; 
-	    private Set<Long> ligneIds; 
+	    private List<Ligne> lignes; 
     public MoyenTransportRequest() {
     }
 
-    
-    public MoyenTransportRequest(String code, Long typeTransportId, Set<Long> ligneIds) {
-		super();
-		this.code = code;
-		this.typeTransportId = typeTransportId;
-		this.ligneIds = ligneIds;
-	}
-
-
-	@Override
-	public String toString() {
-		return "MoyenTransportRequest [code=" + code + ", typeTransportId=" + typeTransportId + ", ligneIds=" + ligneIds
-				+ "]";
-	}
+  
 
 
 	public String getCode() {
@@ -47,14 +37,45 @@ public class MoyenTransportRequest {
 	}
 
 
-	public Set<Long> getLigneIds() {
-		return ligneIds;
+
+
+
+	public List<Ligne> getLignes() {
+		return lignes;
 	}
 
 
-	public void setLigneIds(Set<Long> ligneIds) {
-		this.ligneIds = ligneIds;
+
+
+	public void setLignes(List<Ligne> lignes) {
+		this.lignes = lignes;
 	}
+
+
+
+
+	@Override
+	public String toString() {
+		return "MoyenTransportRequest [code=" + code + ", typeTransportId=" + typeTransportId + ", lignes=" + lignes
+				+ "]";
+	}
+
+
+
+
+	public MoyenTransportRequest(String code, Long typeTransportId, List<Ligne> lignes) {
+		super();
+		this.code = code;
+		this.typeTransportId = typeTransportId;
+		this.lignes = lignes;
+	}
+
+
+
+
+	
+
+
 
 
 
