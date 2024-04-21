@@ -69,14 +69,14 @@ public class DistrictService{
         List<District> districts = districtRepository.findByRolesId(id);
         return districts;
     }
-    public Set<District> getDistrictsByIds(Set<Long> districtIds) {
-        if (districtIds == null) {
+    
+    public Set<District> getDistrictsByIds(Set<Long> ids) {
+        if (ids == null) {
             return Collections.emptySet(); 
         }
-        List<District> districts = districtRepository.findAllById(districtIds);
+        List<District> districts = districtRepository.findAllById(ids);
         return new HashSet<>(districts); 
-	
-}
+    }
     public District createDistrictFromRequest(DistrictRequest districtRequest) {
         District district = new District();
         district.setLabel(districtRequest.getLabel());
@@ -87,14 +87,15 @@ public class DistrictService{
     public District createDistrict(District district) {
         return districtRepository.save(district);
     }
-    public District getDistrictById(Long districtId) {
-        Optional<District> optionalDistrict = districtRepository.findById(districtId);
+    public District getDistrictById(Long id) {
+        Optional<District> optionalDistrict = districtRepository.findById(id);
         if (optionalDistrict.isPresent()) {
             return optionalDistrict.get();
         } else {
-            throw new IllegalArgumentException("District not found with ID: " + districtId);
+            throw new IllegalArgumentException("District not found with ID: " + id);
         }
     }
+
     public District saveDistrict(District district) {
         Optional<District> existingDistrict = districtRepository.findByLabel(district.getLabel());
         return existingDistrict.orElseGet(() -> districtRepository.save(district));

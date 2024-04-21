@@ -25,9 +25,13 @@ public class DistrictController {
      return ResponseEntity.ok(districts);
  }
  
- @GetMapping("/getByIds")
- public ResponseEntity<Set<District>> getDistrictsByIds(@RequestParam Set<Long> districtIds) {
-     Set<District> districts = districtService.getDistrictsByIds(districtIds);
+
+ @GetMapping("/ByIds")
+ public ResponseEntity<Set<District>> getDistrictsByIds(@RequestParam Set<Long> ids) {
+     Set<District> districts = districtService.getDistrictsByIds(ids);
+     if (districts.isEmpty()) {
+         return ResponseEntity.noContent().build();
+     }
      return ResponseEntity.ok(districts);
  }
 }
