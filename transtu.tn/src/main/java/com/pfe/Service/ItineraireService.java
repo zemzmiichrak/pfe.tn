@@ -2,13 +2,15 @@ package com.pfe.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.pfe.Entity.Itineraire;
-import com.pfe.Entity.Ligne;
+
 import com.pfe.Entity.PointGPS;
 import com.pfe.Repository.ItineraireRepository;
-import com.pfe.Repository.LigneRepository;
+
 import com.pfe.Repository.PointGPSRepository;
 import com.pfe.Request.ItineraireRequest;
 
@@ -18,14 +20,12 @@ public class ItineraireService {
     @Autowired
     private ItineraireRepository itineraireRepository;
 
-    @Autowired
-    private LigneRepository ligneRepository;
+
 
     @Autowired
     private PointGPSRepository pointGPSRepository;
 
     public Itineraire createItineraire(ItineraireRequest request) {
-
         Optional<Itineraire> existingItineraire = itineraireRepository.findByCode(request.getCode());
         if (existingItineraire.isPresent()) {
             throw new RuntimeException("Un itinéraire avec le même code existe déjà");
@@ -34,6 +34,7 @@ public class ItineraireService {
         Itineraire itineraire = convertRequestToItineraire(request);
         return itineraireRepository.save(itineraire);
     }
+
     public Itineraire updateItineraire(Long id, ItineraireRequest request) {
         Optional<Itineraire> existingItineraire = itineraireRepository.findById(id);
         if (existingItineraire.isPresent()) {
@@ -58,8 +59,9 @@ public class ItineraireService {
             throw new IllegalArgumentException("Itinéraire non trouvé avec l'ID : " + id);
         }
     }
+
     public void deleteItineraire(Long id) {
-   
+
         Optional<Itineraire> existingItineraire = itineraireRepository.findById(id);
         if (existingItineraire.isPresent()) {
             itineraireRepository.deleteById(id);
@@ -72,28 +74,18 @@ public class ItineraireService {
         Itineraire itineraire = new Itineraire();
         itineraire.setCode(request.getCode());
         itineraire.setDescription(request.getDescription());
-
-    
-        Set<Ligne> lignes = ligneRepository.findAllByIdIn(request.getLignesIds());
-        itineraire.setLignes(lignes);
-
-     
-        Set<PointGPS> pointsGPS = pointGPSRepository.findAllByIdIn(request.getPointsGPSIds());
-        itineraire.setPointsGPS(pointsGPS);
-
+        itineraire.setLignes(request.getLignes()); // Use the setter directly
+        itineraire.setPointsGPS(request.getPointsGPS()); // Use the setter directly
         return itineraire;
     }
 
     public Optional<Itineraire> getItineraireById(Long id) {
         return itineraireRepository.findById(id);
     }
-    
+
     public List<Itineraire> getAllItineraires() {
         List<Itineraire> itineraires = itineraireRepository.findAll();
-        for (Itineraire itineraire : itineraires) {
-            Set<Ligne> lignes = itineraire.getLignes(); // Récupérer les lignes associées à cet itinéraire
-            itineraire.setLignes(lignes); // Mettre à jour les lignes associées dans l'objet Itineraire
-        }
+        // No need to modify lignes here (JPA typically manages changes)
         return itineraires;
     }
 
@@ -102,9 +94,13 @@ public class ItineraireService {
         if (existingItineraire.isPresent()) {
             Itineraire itineraire = existingItineraire.get();
 
-            Set<PointGPS> pointsGPS = pointGPSRepository.findAllByIdIn(pointsGPSIds);
+            // Fetch the PointGPS objects from the database using pointGPSIds
+            List<PointGPS> pointsGPS = pointGPSRepository.findAllById(pointsGPSIds);
+
+            // Add the fetched points to the itineraire's pointsGPS collection
             itineraire.getPointsGPS().addAll(pointsGPS);
 
+            // Save the modified itineraire with the updated pointsGPS collection
             return itineraireRepository.save(itineraire);
         } else {
             throw new IllegalArgumentException("Itinéraire non trouvé avec l'ID : " + itineraireId);
@@ -115,15 +111,17 @@ public class ItineraireService {
         if (existingItineraire.isPresent()) {
             Itineraire itineraire = existingItineraire.get();
 
-            Set<PointGPS> pointsGPS = itineraire.getPointsGPS();
-            pointsGPS.removeIf(pointGPS -> pointGPS.getId().equals(pointGPSId));
+            // Efficiently remove the point by ID using stream filtering
+            itineraire.setPointsGPS(itineraire.getPointsGPS().stream()
+                    .filter(pointGPS -> !pointGPS.getId().equals(pointGPSId))
+                    .collect(Collectors.toList()));
 
-            itineraire.setPointsGPS(pointsGPS);
-
+            // Save the modified itineraire with the updated pointsGPS collection
             return itineraireRepository.save(itineraire);
         } else {
             throw new IllegalArgumentException("Itinéraire non trouvé avec l'ID : " + itineraireId);
         }
     }
+
     
     }

@@ -24,8 +24,7 @@ public class MoyenTransportService {
     @Autowired
     private TypeService typeService;
 
-    @Autowired
-    private LigneService ligneService;
+
 
     @Transactional
     public MoyenTransport addMoyenTransport(String code, Long typeTransportId, List<Ligne> lignes) {
@@ -58,6 +57,10 @@ public class MoyenTransportService {
 
     @Transactional
     public MoyenTransport updateMoyenTransport(Long id, String newCode, Long newTypeTransportId, List<Ligne> newLignes) {
+        if (id == null) {
+            throw new IllegalArgumentException("L'ID ne peut pas être null lors de la mise à jour du moyen de transport.");
+        }
+
         TypeTransport newTypeTransport = typeService.getTypeTransportById(newTypeTransportId);
 
         MoyenTransport existingMoyenTransport = moyenTransportRepository.findById(id)
@@ -69,6 +72,7 @@ public class MoyenTransportService {
 
         return moyenTransportRepository.save(existingMoyenTransport);
     }
+
 
     @Transactional
     public MoyenTransport createMoyenTransport(String code, Long typeTransportId, List<Ligne> lignes) {

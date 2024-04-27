@@ -1,12 +1,5 @@
 package com.pfe.Entity;
-
-import java.util.HashSet;
-
-
-import java.util.Set;
-
-
-
+import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,10 +18,10 @@ public class Itineraire {
 
     private String description;
     @ManyToMany
-    private Set<Ligne> lignes = new HashSet<>();
+    private List<Ligne> lignes; 
 
     @ManyToMany
-    private Set<PointGPS> pointsGPS = new HashSet<>();
+    private List<PointGPS> pointsGPS; 
 
     public Long getId() {
         return id;
@@ -54,21 +47,25 @@ public class Itineraire {
         this.description = description;
     }
 
-    public Set<Ligne> getLignes() {
-        return lignes;
-    }
+	
+	 public List<Ligne> getLignes() {
+		return lignes;
+	}
 
-    public void setLignes(Set<Ligne> lignes) {
-        this.lignes = lignes;
-    }
+	public void setLignes(List<Ligne> lignes) {
+		this.lignes = lignes;
+	}
 
-    public Set<PointGPS> getPointsGPS() {
-        return pointsGPS;
-    }
+	public List<PointGPS> getPointsGPS() {
+		return pointsGPS;
+	}
 
-    public void setPointsGPS(Set<PointGPS> pointsGPS) {
-        this.pointsGPS = pointsGPS;
-    }
+	public void setPointsGPS(List<PointGPS> pointsGPS) {
+		this.pointsGPS = pointsGPS;
+	}
+
+	public Itineraire() {
+	    }
 
 	@Override
 	public String toString() {
@@ -76,17 +73,14 @@ public class Itineraire {
 				+ ", pointsGPS=" + pointsGPS + "]";
 	}
 
-	public Itineraire(Long id, String code, String description, Set<Ligne> lignes, Set<PointGPS> pointsGPS) {
-	
+	public Itineraire(Long id, String code, String description, List<Ligne> lignes, List<PointGPS> pointsGPS) {
+		super();
 		this.id = id;
 		this.code = code;
 		this.description = description;
 		this.lignes = lignes;
 		this.pointsGPS = pointsGPS;
 	}
-	
-	 public Itineraire() {
-	    }
 
 
 }

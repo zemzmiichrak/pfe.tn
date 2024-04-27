@@ -1,13 +1,15 @@
 package com.pfe.Request;
-
-import java.util.Set;
+import java.util.List;
+import com.pfe.Entity.Ligne;
+import com.pfe.Entity.PointGPS;
 
 public class ItineraireRequest {
 
     private String code;
     private String description;
-    private Set<Long> lignesIds; 
-    private Set<Long> pointsGPSIds; 
+    private List<Ligne> lignes; 
+    private List<PointGPS> pointsGPS; 
+
 
     public String getCode() {
         return code;
@@ -25,27 +27,29 @@ public class ItineraireRequest {
         this.description = description;
     }
 
-    public Set<Long> getLignesIds() {
-        return lignesIds;
-    }
+	public List<Ligne> getLignes() {
+		return lignes;
+	}
 
-    public void setLignesIds(Set<Long> lignesIds) {
-        this.lignesIds = lignesIds;
-    }
+	public void setLignes(List<Ligne> lignes) {
+		this.lignes = lignes;
+	}
 
-    public Set<Long> getPointsGPSIds() {
-        return pointsGPSIds;
-    }
+	public List<PointGPS> getPointsGPS() {
+		return pointsGPS;
+	}
 
-    public void setPointsGPSIds(Set<Long> pointsGPSIds) {
-        this.pointsGPSIds = pointsGPSIds;
-    }
+	public void setPointsGPS(List<PointGPS> pointsGPS) {
+		this.pointsGPS = pointsGPS;
+	}
 
-	public ItineraireRequest(String code, String description, Set<Long> lignesIds, Set<Long> pointsGPSIds) {
-		
+	public ItineraireRequest(String code, String description, List<Ligne> lignes, List<PointGPS> pointsGPS) {
+		super();
 		this.code = code;
 		this.description = description;
-		this.lignesIds = lignesIds;
-		this.pointsGPSIds = pointsGPSIds;
+		this.lignes = lignes;
+		this.pointsGPS = pointsGPS;
 	}
+
+   
 }

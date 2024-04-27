@@ -14,7 +14,6 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-
 public class MoyenTransport {
 
     @Id
@@ -37,18 +36,20 @@ public class MoyenTransport {
     
     private List<Ligne> lignes ;
 
-
-
+ 
 	
 
 	public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+	public void setId(Long id) {
+	    if (id != null) {
+	        this.id = id;
+	    } else {
+	        throw new IllegalArgumentException("L'ID ne peut pas être null.");
+	    }
+	}
     public String getCode() {
         return code;
     }
