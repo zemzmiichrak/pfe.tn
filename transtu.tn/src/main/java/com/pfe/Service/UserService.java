@@ -1,3 +1,4 @@
+
 package com.pfe.Service;
 
 import java.util.ArrayList;
@@ -131,26 +132,40 @@ public  class UserService implements UserInterfaceService {
         return userReqList;
     }
 
+ 
     @Override
     public String updateUser(UserUpdate userUpdate, UserCredentials updatedCredentials, List<Role> roles) {
         if (userUpdate == null) {
             throw new IllegalArgumentException("userUpdate cannot be null");
         }
 
-        if (userRepository.existsById(userUpdate.getId())) {
-            User user = userRepository.findById(userUpdate.getId())
-                    .orElseThrow(() -> new EntityNotFoundException("User with id " + userUpdate.getId() + " not found"));
-
-            if (roles != null && !roles.isEmpty()) {
-                user.setRoles(new ArrayList<>(roles));
-            }
-
-            credentialsRepository.save(updatedCredentials);
-            userRepository.save(user);
-            return "User updated successfully";
-        } else {
+        if (!userRepository.existsById(userUpdate.getId())) {
             throw new EntityNotFoundException("User with id " + userUpdate.getId() + " not found");
         }
+
+        User user = userRepository.findById(userUpdate.getId()).get();
+
+        // Update user information if provided
+        user.setFirstName(userUpdate.getFirstName() != null ? userUpdate.getFirstName() : user.getFirstName());
+        user.setLastName(userUpdate.getLastName() != null ? userUpdate.getLastName() : user.getLastName());
+        user.setPhoneNumber(userUpdate.getPhoneNumber() != null ? userUpdate.getPhoneNumber() : user.getPhoneNumber());
+        user.setAddress(userUpdate.getAddress() != null ? userUpdate.getAddress() : user.getAddress());
+        user.setEmail(userUpdate.getEmail() != null ? userUpdate.getEmail() : user.getEmail());
+
+        // Update user credentials if provided (assuming updatedCredentials object is not null)
+        if (updatedCredentials != null) {
+            UserCredentials existingCredentials = user.getCredentials();
+            existingCredentials.setUsername(updatedCredentials.getUsername() != null ? updatedCredentials.getUsername() : existingCredentials.getUsername());
+            existingCredentials.setPassword(updatedCredentials.getPassword() != null ? passwordEncoder.encode(updatedCredentials.getPassword()) : existingCredentials.getPassword());
+        }
+
+        // Update user roles if provided
+        if (roles != null && !roles.isEmpty()) {
+            user.setRoles(new ArrayList<>(roles));
+        }
+
+        userRepository.save(user);
+        return "User updated successfully";
     }
 
 

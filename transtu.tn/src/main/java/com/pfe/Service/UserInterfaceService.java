@@ -24,10 +24,14 @@ public interface UserInterfaceService {
 
 	 public String login(UserCredentialsLogin credentialsLogin);
 
-	 public String updateUser(UserUpdate userUpdate, UserCredentials updatedCredentials, List<Role> roles);
+	 
 
 	 public  void registerUser(UserSave userSave, UserCredentials credentials, List<Role> roles);
 
 	 public UserRequest showUser(Long id);
+
+public 	String updateUser(UserUpdate userUpdate, UserCredentials updatedCredentials, List<Role> roles);
+
+	 
 
 }

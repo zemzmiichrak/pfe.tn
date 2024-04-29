@@ -35,8 +35,7 @@ public class Role {
     @JsonIgnore
     private Set<User> users = new HashSet<>();
     
-    @ManyToMany(mappedBy = "roles")
-    private Set<UserCredentials> userCredentials = new HashSet<>();
+
 
 
     public Long getId() {
@@ -72,24 +71,26 @@ public class Role {
     }
 
  
-    public Set<UserCredentials> getUserCredentials() {
-        return userCredentials;
-    }
 
-    public void setUserCredentials(Set<UserCredentials> userCredentials) {
-        this.userCredentials = userCredentials;
-    }
-
-    public Role() {
-    }
-
-
-
-	@Override
+    @Override
 	public String toString() {
 		return "Role [id=" + id + ", label=" + label + ", description=" + description + ", districts=" + districts
-				+ ", users=" + users + ", userCredentials=" + userCredentials + "]";
+				+ ", users=" + users + "]";
 	}
+
+	public Role(Long id, String label, String description, List<District> districts, Set<User> users) {
+		super();
+		this.id = id;
+		this.label = label;
+		this.description = description;
+		this.districts = districts;
+		this.users = users;
+	}
+
+	public Role() {
+    }
+
+
 
 	public Set<User> getUsers() {
 		return users;
@@ -99,16 +100,6 @@ public class Role {
 		this.users = users;
 	}
 
-	public Role(Long id, String label, String description, List<District> districts, Set<User> users,
-			Set<UserCredentials> userCredentials) {
-		super();
-		this.id = id;
-		this.label = label;
-		this.description = description;
-		this.districts = districts;
-		this.users = users;
-		this.userCredentials = userCredentials;
-	}
 
 	  public void setDistrictsSet(Set<District> districtsSet) {
 	        this.districts = new ArrayList<>(districtsSet);
