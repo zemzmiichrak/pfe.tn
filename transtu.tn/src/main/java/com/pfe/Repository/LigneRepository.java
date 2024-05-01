@@ -14,16 +14,12 @@ import com.pfe.Entity.Ligne;
 public interface LigneRepository extends JpaRepository<Ligne, Long> {
     boolean existsByCodeOrLabel(String code, String label);
    
-	
 
 	List<Ligne> findAllByLabelIn(List<String> ligneLabels);
-
 
 	List<Ligne> findAllByIdIn(List<Long> ids);
 	
 	Optional<Ligne> findByLabel(String label);
-
-
 
 	Set<Ligne> findAllByIdIn(Set<Long> lignesIds);
 
